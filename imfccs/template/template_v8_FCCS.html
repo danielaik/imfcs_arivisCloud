@@ -1,0 +1,2329 @@
+<html>
+
+<head>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <style>
+        ul {
+            list-style-type: none;
+            columns: 2;
+            -webkit-columns: 2;
+            -moz-columns: 2;
+        }
+
+        li:before {
+            content: "• ";
+        }
+    </style>
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 90px;
+            height: 34px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #2196F3;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: gray;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(55px);
+            -ms-transform: translateX(55px);
+            transform: translateX(55px);
+        }
+
+        /*------ ADDED CSS ---------*/
+        .on {
+            display: none;
+        }
+
+        .on,
+        .off {
+            color: white;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            font-size: 10px;
+            font-family: Verdana, sans-serif;
+        }
+
+        input:checked+.slider .on {
+            display: block;
+        }
+
+        input:checked+.slider .off {
+            display: none;
+        }
+
+        /*--------- END --------*/
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+    <style type="text/css">
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .tg td {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg th {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg .tg-0lax {
+            text-align: left;
+            vertical-align: top
+        }
+    </style>
+
+    <style type="text/css">
+        .tg2 {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .tg2 td {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg2 th {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg2 .tg2-0lax {
+            text-align: left;
+            vertical-align: top
+        }
+    </style>
+
+
+
+</head>
+<title>$title</title>
+
+<body onload="myFunction(); cameraParameter();">
+
+
+
+
+    <br>
+
+    <p align="center"><strong>Filename 1:</strong> <span id="getfilename1"></span></p>
+    <br>
+    <p align="center"><strong>Filename 2:</strong> <span id="getfilename2"></span></p>
+
+    <br>
+    <table align="center" class="tg" style="border: 1px solid black">
+        <thead>
+            <tr>
+                <th colspan="4" class="text-center" class="tg-0pky"><strong>Acquisition Parameters</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="143" class="tg-0pky">Exposure time [s]: </td>
+                <td width="74" class="tg-0pky"><span id="getexposureTime"></span></td>
+                <td width="166" class="tg-0pky">Pixel size [&#956m]</td>
+                <td width="39" class="tg-0pky"><span id="getpixelsize"></span></td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">Pixel Dim. (w x h)</td>
+                <td class="tg-0pky"><span id="getwidth"></span> x <span id="getheight"></span></td>
+                <td class="tg-0pky">Total frame</td>
+                <td class="tg-0pky"><span id="gettotalFrame"></span></td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">Numerical aperture</td>
+                <td class="tg-0pky"><span id="getNA"></span></td>
+                <td class="tg-0pky">Magnification</td>
+                <td class="tg-0pky"><span id="getobjmag"></span></td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">&#955 emission green</td>
+                <td class="tg-0pky"><span id="getemlambda"></span></td>
+                <td class="tg-0pky">&#955 emission red</td>
+                <td class="tg-0pky"><span id="getemlambda2"></span></td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">PSF parameter green</td>
+                <td class="tg-0pky"><span id="getsigma"></span></td>
+                <td class="tg-0pky">PSF parameter red</td>
+                <td class="tg-0pky"><span id="getsigma2"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>>
+
+    <table align="center" class="tg2" style="border: 1px solid black">
+        <thead>
+            <tr>
+                <th colspan="2" class="text-center" class="tg2-0lax"><strong>Post-processing parameter</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="191" class="tg2-0lax">Correlator Scheme</td>
+                <td width="177" class="tg2-0lax">multi-&#964 (<span id='getcorrelatorP'></span> , <span
+                        id='getcorrelatorQ'></span>)
+                </td>
+            </tr>
+            <tr>
+                <td class="tg2-0lax">Pixel Binning </td>
+                <td class="tg2-0lax"><span id='getbinningX'></span> x <span id='getbinningY'></span></td>
+            </tr>
+            <tr>
+                <td class="tg2-0lax">Lower limit/ Upper limit counts </td>
+                <td class="tg2-0lax"><span id='getLL'></span> / <span id='getUL'></span></td>
+            </tr>
+            <tr>
+                <td class="tg2-0lax">Fit Model</td>
+                <td class="tg2-0lax"><span id='getfitInfo'></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <br>
+
+    <div class="col-md-6 offset-md-3 my-5">
+        <div class="card">
+            <div class="card-body">
+                <p align="justify">Display spatio-temporal correlation functions from 16 bit stack file.
+                    Download <a href="http://www.dbs.nus.edu.sg/lab/BFL/imfcs_image_j_plugin.html">ImFCS ImageJ
+                        Plugin</a>
+                    for a comprehensive software to calculate and evaluate spatiotemporal correlation functions.</p>
+                <hr>
+            </div>
+            <div align="center" class="card-body">
+                <!-- Plotly chart will be drawn inside this DIV -->
+                <div id="graphCCF"></div>
+            </div>
+            <div align="center" class="card-body">
+                <!-- Plotly chart will be drawn inside this DIV -->
+                <div id="graphACF1"></div>
+            </div>
+            <div align="center" class="card-body">
+                <!-- Plotly chart will be drawn inside this DIV -->
+                <div id="graphACF2"></div>
+            </div>
+            <hr><br>
+            <div align="center" class="card-body">
+                <div id="intTraceGraph"></div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <br>>
+
+
+    <div class="col-md-6 offset-md-3 my-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 align="center"> Individual auto-/cross- correlation function (ACF/CCF)</h4>
+                <hr>
+            </div>
+            <div align="center" class="card-body">
+                <!-- Plotly chart will be drawn inside this DIV -->
+                <div id="myDiv"></div>
+            </div>
+            <div align="center" class="card-body">
+                <input type="button" id="1" onclick="change_ACFsingle(this.id)" value="Green channel">
+                <input type="button" id="2" onclick="change_ACFsingle(this.id)" value="Red channel">
+                <input type="button" id="3" onclick="change_ACFsingle(this.id)" value="Cross">
+                <input type="button" id="4" onclick="change_ACFsingle(this.id)" value="All">
+            </div>
+            <hr>
+
+            <h4 align="center">Pixel width coordinate: </h4>
+            <p align="center">Minimum X: <span id="getMinXIndex"></span></p>
+            <p align="center">Maximum X: <span id="getMaxXIndex"></span></p>
+            <form align="center" oninput="amount.value=rangeInputWidth.value">
+                <input type="range" id="rangeInputWidth" name="rangeInputWidth" min="" max="" value=""
+                    oninput="adjustValueXinput(this.value)">
+                <output name="amount" for="rangeInputWidth"></output>
+            </form>
+            <hr>
+
+            <h4 align="center">Pixel height coordinate: </h4>
+            <p align="center">Minimum Y: <span id="getMinYIndex"></span></p>
+            <p align="center">Maximum Y: <span id="getMaxYIndex"></span></p>
+            <form align="center" oninput="amount.value=rangeInputHeight.value">
+                <input type="range" id="rangeInputHeight" name="rangeInputHeight" min="" max="" value=""
+                    oninput="adjustValueYinput(this.value)">
+                <output name="amount" for="rangeInputHeight"></output>
+            </form>
+
+            <hr>
+            <h4 align="center">Log x-axis: </h4>
+            <div align="center">
+                <label class="switch">
+                    <input type="checkbox" id="xaxis_logswitch">
+                    <div class="slider round">
+                        <!--ADDED HTML -->
+                        <span class="on">LINEAR</span><span class="off">LOG</span>
+                        <!--END-->
+                    </div>
+                </label>
+            </div>
+
+
+        </div>
+    </div>
+
+    <br>>
+
+    <div class="col-md-6 offset-md-3 my-5">
+        <class class="card">
+            <div class="card-body">
+                <h4 align="center" id="myHistogramText"></h4>
+                <hr>
+            </div>
+            <p align="center"><span id='HistDfitDetails1'></span></p>
+            <p align="center"><span id='HistDfitDetails2'></span></p>
+            <p align="center"><span id='HistDfitDetailsCCF'></span></p>
+            <p align="center"><span id='HistDfitDetailsCCFq'></span></p>
+            <p align="center"><span id='HistDmodelProb'></span></p>
+            <hr><br>
+            <div align="center" class="card-body">
+                <!-- Plotly chart will be drawn inside this DIV -->
+                <div id="graph_HistD_1"></div>
+            </div>
+            <hr><br>
+            <div align="center" class="card-body">
+                <div id="graph_HeatMapD"></div>
+            </div>
+            <div align="center" class="card-body">
+                <input type="button" id="1" onclick="change_map(this.id)" value="D green">
+                <input type="button" id="2" onclick="change_map(this.id)" value="Fitted green">
+            </div>
+            <div align="center" class="card-body">
+                <input type="button" id="3" onclick="change_map(this.id)" value="D red">
+                <input type="button" id="4" onclick="change_map(this.id)" value="Fitted red">
+            </div>
+            <div align="center" class="card-body">
+                <input type="button" id="5" onclick="change_map(this.id)" value="D CCF">
+                <input type="button" id="6" onclick="change_map(this.id)" value="Fitted CCF">
+                <input type="button" id="7" onclick="change_map(this.id)" value="q">
+            </div>
+            <div align="center" class="card-body">
+                D lower limit: <input type="text" placeholder="enter D value" id="D_ll">
+                <br>
+                D upper limit: <input type="text" placeholder="enter D value" id="D_ul">
+                <br><br>
+                <button type="submit" onclick="updateDthreshold()" id="doDthreshold">update</button>
+            </div>
+
+
+
+
+        </class>
+    </div>
+
+
+
+
+
+
+    <br>
+
+
+
+
+
+
+
+    <script>
+
+        let json = $json;
+
+        //sup
+        var two = 2;
+        var square = two.toString();
+        var ACFsingle_mode = 4; // 1: ACF green with its sd and fit; 2: ACF red; 3: CCF; 4: all (initially display all)
+        var HeatMap_mode = 1; // 1: green; 2: red; 3: CCF; 4: CCFq
+
+        //window.onload = init; // call init after done loading html
+
+        function myFunction() {
+            //TODO
+        }
+
+        function updateDthreshold() {
+            var Dll = document.getElementById('D_ll');
+            var Dul = document.getElementById('D_ul');
+            console.log("Dll: " + Dll.value);
+            console.log("Dul: " + Dul.value);
+            if (HeatMap_mode == 1) {
+                //Update Maps
+                dataDmap_1[0].zauto = false;
+                dataDmap_1[0].zmin = Dll.value;
+                dataDmap_1[0].zmax = Dul.value;
+
+                // Update Histogram
+                layoutD_1.xaxis.range = [Dll.value, Dul.value];
+                dataD_1[0].autobinx = false;
+                dataD_1[0].xbins = { start: Dll.value, end: Dul.value, size: 0.02 };
+
+                ///Plotly.newPlot('graph_HeatMapD', dataDmap_1, layoutDmap_1);
+                //Plotly.newPlot('graph_HistD_1', dataD_1, layoutD_1);
+                Plotly.redraw('graph_HistD_1');
+                Plotly.redraw('graph_HeatMapD');
+            }
+            if (HeatMap_mode == 2) {
+                //Update Maps
+                dataDmap_2[0].zauto = false;
+                dataDmap_2[0].zmin = Dll.value;
+                dataDmap_2[0].zmax = Dul.value;
+
+                // Update Histogram
+                layoutD_2.xaxis.range = [Dll.value, Dul.value];
+                dataD_2[0].autobinx = false;
+                dataD_2[0].xbins = { start: Dll.value, end: Dul.value, size: 0.02 };
+
+                Plotly.redraw('graph_HistD_1');
+                Plotly.redraw('graph_HeatMapD');
+            }
+            if (HeatMap_mode == 3) {
+                // Update Maps
+                dataDmap_CCF[0].zauto = false;
+                dataDmap_CCF[0].zmin = Dll.value;
+                dataDmap_CCF[0].zmax = Dul.value;
+
+                // Update Histogram
+                layoutD_CCF.xaxis.range = [Dll.value, Dul.value];
+                dataD_CCF[0].autobinx = false;
+                dataD_CCF[0].xbins = { start: Dll.value, end: Dul.value, size: 0.02 };
+
+
+
+                Plotly.redraw('graph_HistD_1');
+                Plotly.redraw('graph_HeatMapD');
+            }
+        }
+
+        function change_map(map_type) {//1= Dmap; 2 = is Fitted map
+
+            if (map_type == 1) {
+                HeatMap_mode = 1;
+                console.log("heatmap_mode: " + HeatMap_mode);
+                Plotly.newPlot('graph_HeatMapD', dataDmap_1, layoutDmap_1);
+                Plotly.newPlot('graph_HistD_1', dataD_1, layoutD_1);
+            }
+
+            if (map_type == 2) {
+                HeatMap_mode = 1;
+                console.log("heatmap_mode: " + HeatMap_mode);
+                Plotly.newPlot('graph_HeatMapD', dataisFittedmap_1, layoutisFittedmap_1);
+                Plotly.newPlot('graph_HistD_1', dataD_1, layoutD_1);
+            }
+
+            if (map_type == 3) {
+                HeatMap_mode = 2;
+                console.log("heatmap_mode: " + HeatMap_mode);
+                Plotly.newPlot('graph_HeatMapD', dataDmap_2, layoutDmap_2);
+                Plotly.newPlot('graph_HistD_1', dataD_2, layoutD_2);
+            }
+
+            if (map_type == 4) {
+                HeatMap_mode = 2;
+                console.log("heatmap_mode: " + HeatMap_mode);
+                Plotly.newPlot('graph_HeatMapD', dataisFittedmap_2, layoutisFittedmap_2);
+                Plotly.newPlot('graph_HistD_1', dataD_2, layoutD_2);
+            }
+
+            if (map_type == 5) {
+                HeatMap_mode = 3;
+                console.log("heatmap_mode: " + HeatMap_mode);
+                Plotly.newPlot('graph_HeatMapD', dataDmap_CCF, layoutDmap_CCF);
+                Plotly.newPlot('graph_HistD_1', dataD_CCF, layoutD_CCF);
+            }
+
+            if (map_type == 6) {
+                HeatMap_mode = 3;
+                console.log("heatmap_mode: " + HeatMap_mode);
+                Plotly.newPlot('graph_HeatMapD', dataisFittedmap_CCF, layoutisFittedmap_CCF);
+                Plotly.newPlot('graph_HistD_1', dataD_CCF, layoutD_CCF);
+            }
+            if (map_type == 7) {
+                HeatMap_mode = 4;
+                console.log("heatmap_mode: " + HeatMap_mode);
+                Plotly.newPlot('graph_HeatMapD', dataQmap_CCFq, layoutQmap_CCFq);
+                Plotly.newPlot('graph_HistD_1', dataD_CCFq, layoutD_CCFq);
+            }
+        }
+
+        function change_ACFsingle(plot_type) {
+
+            if (plot_type == 1) {
+                ACFsingle_mode = 1;
+                dataACFsingle = [];
+                dataACFsingle.push(traceACF1single); //green raw correlation with sd
+                if (json['doFit']) {
+                    dataACFsingle.push(traceFit1); // green fit
+                }
+                layoutACFsingle.yaxis.range = [json['minY_green'], json['maxY_green']];
+                Plotly.newPlot('myDiv', dataACFsingle, layoutACFsingle);
+
+            }
+
+            if (plot_type == 2) {
+                ACFsingle_mode = 2;
+                dataACFsingle = [];
+                dataACFsingle.push(traceACF2single); //green raw correlation with sd
+                if (json['doFit']) {
+                    dataACFsingle.push(traceFit2); // green fit
+                }
+                layoutACFsingle.yaxis.range = [json['minY_red'], json['maxY_red']];
+                Plotly.newPlot('myDiv', dataACFsingle, layoutACFsingle);
+
+            }
+
+            if (plot_type == 3) {
+                ACFsingle_mode = 3;
+                dataACFsingle = [];
+                dataACFsingle.push(traceCCFsingle); //green raw correlation with sd
+                if (json['doFit']) {
+                    dataACFsingle.push(traceFitCCF); // green fit
+                }
+                layoutACFsingle.yaxis.range = [json['minY'], json['maxY']];
+                Plotly.newPlot('myDiv', dataACFsingle, layoutACFsingle);
+
+            }
+
+            if (plot_type == 4) {
+                ACFsingle_mode = 4;
+                dataACFsingle = [];
+                dataACFsingle.push(traceACF1single); //green raw correlation with sd
+                dataACFsingle.push(traceACF2single); // red raw correlation with sd
+                dataACFsingle.push(traceCCFsingle); // ccf and sd
+                if (json['doFit']) {
+                    dataACFsingle.push(traceFit1); // green fit
+                    dataACFsingle.push(traceFit2); // red fit
+                    dataACFsingle.push(traceFitCCF); // CCF fit
+                }
+                layoutACFsingle.yaxis.range = [Math.min(json['minY'], json['minY_green'], json['minY_red']), Math.max(json['maxY'], json['maxY_green'], json['maxY_red'])];
+                Plotly.newPlot('myDiv', dataACFsingle, layoutACFsingle);
+
+            }
+
+        }
+
+
+        // loading javascript variable into html body
+        function cameraParameter() {
+            document.getElementById("getfilename1").innerHTML = json['title1'];
+            document.getElementById("getfilename2").innerHTML = json['title2'];
+            document.getElementById("getexposureTime").innerHTML = json['exposureTime'];
+            document.getElementById("getcorrelatorP").innerHTML = json['correlatorP'];
+            document.getElementById("getcorrelatorQ").innerHTML = json['correlatorQ'];
+            document.getElementById("getbinningX").innerHTML = json['binningX'];
+            document.getElementById("getbinningY").innerHTML = json['binningY'];
+            document.getElementById("getwidth").innerHTML = json['width'];
+            document.getElementById("getheight").innerHTML = json['height'];
+            document.getElementById("gettotalFrame").innerHTML = json['totalFrame'];
+            document.getElementById("getobjmag").innerHTML = json['objmag'];
+            document.getElementById("getpixelsize").innerHTML = json['pixelsize'];
+            document.getElementById("getNA").innerHTML = json['NA'];
+            document.getElementById("getsigma").innerHTML = json['sigma'];
+            document.getElementById("getsigma2").innerHTML = json['sigma2'];
+            document.getElementById("getemlambda").innerHTML = json['emlambda'];
+            document.getElementById("getemlambda2").innerHTML = json['emlambda2'];
+            document.getElementById("getfitInfo").innerHTML = getFitInfo();
+            document.getElementById("getLL").innerHTML = json['filterLL'];
+            document.getElementById("getUL").innerHTML = json['filterUL'];
+
+
+            if (json['doFit'] && json['isBayes']) {
+                document.getElementById('HistDfitDetails1').innerHTML = 'Green channel --> Fitted: ' + numFitted1 + '/' + numCurve1 + ' | Mean: ' + (getAvg(json['Dcoeff1'].filter(function (val) {
+                    return val !== 0;
+                })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s' + ' | StdDev: ' + (getSD(json['Dcoeff1'].filter(function (val) {
+                    return val !== 0;
+                })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s';
+                document.getElementById('HistDfitDetails2').innerHTML = 'Red channel --> Fitted: ' + numFitted2 + '/' + numCurve2 + ' | Mean: ' + (getAvg(json['Dcoeff2'].filter(function (val) {
+                    return val !== 0;
+                })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s' + ' | StdDev: ' + (getSD(json['Dcoeff2'].filter(function (val) {
+                    return val !== 0;
+                })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s';
+                document.getElementById('HistDfitDetailsCCF').innerHTML = 'CCF --> Fitted: ' + numFittedCCF + '/' + numCurveCCF + ' | Mean: ' + (getAvg(json['DcoeffCCF'].filter(function (val) {
+                    return val !== 0;
+                })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s' + ' | StdDev: ' + (getSD(json['DcoeffCCF'].filter(function (val) {
+                    return val !== 0;
+                })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s';
+                document.getElementById('HistDfitDetailsCCFq').innerHTML = 'CCFq --> valid q: ' + numValidCCFq + '/' + json['CCFq'].length + ' | Mean q: ' + (getAvg(json['CCFq'].filter(function (val) {
+                    return val !== 0;
+                }))).toFixed(2) + ' | StdDev q: ' + (getSD(json['CCFq'].filter(function (val) {
+                    return val !== 0;
+                }))).toFixed(2);
+                document.getElementById('HistDmodelProb').innerHTML = 'Model Probability (1 Particle): ' + json['modelprobP1'] + ' | Model Probability (2 Particle): ' + json['modelprobP2'];
+            } else {
+                if (json['doFit']) {
+                    document.getElementById('HistDfitDetails1').innerHTML = 'Green channel --> Fitted: ' + numFitted1 + '/' + numCurve1 + ' | Mean: ' + (getAvg(json['Dcoeff1'].filter(function (val) {
+                        return val !== 0;
+                    })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s' + ' | StdDev: ' + (getSD(json['Dcoeff1'].filter(function (val) {
+                        return val !== 0;
+                    })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s';
+                    document.getElementById('HistDfitDetails2').innerHTML = 'Red channel --> Fitted: ' + numFitted2 + '/' + numCurve2 + ' | Mean: ' + (getAvg(json['Dcoeff2'].filter(function (val) {
+                        return val !== 0;
+                    })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s' + ' | StdDev: ' + (getSD(json['Dcoeff2'].filter(function (val) {
+                        return val !== 0;
+                    })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s';
+                    document.getElementById('HistDfitDetailsCCF').innerHTML = 'CCF --> Fitted: ' + numFittedCCF + '/' + numCurveCCF + ' | Mean: ' + (getAvg(json['DcoeffCCF'].filter(function (val) {
+                        return val !== 0;
+                    })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s' + ' | StdDev: ' + (getSD(json['DcoeffCCF'].filter(function (val) {
+                        return val !== 0;
+                    })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s';
+                    document.getElementById('HistDfitDetailsCCFq').innerHTML = 'CCFq --> valid q: ' + numValidCCFq + '/' + json['CCFq'].length + ' | Mean q: ' + (getAvg(json['CCFq'].filter(function (val) {
+                        return val !== 0;
+                    }))).toFixed(2) + ' | StdDev q: ' + (getSD(json['CCFq'].filter(function (val) {
+                        return val !== 0;
+                    }))).toFixed(2);
+                    document.getElementById('HistDmodelProb').innerHTML = "";
+                    //document.getElementById("getCounts").innerHTML = numCurve;
+                    //document.getElementById("getDmean").innerHTML = (getAvg(json['Dcoeff']) * 10 ** 12).toFixed(2);
+                    //document.getElementById("getDsd").innerHTML = (getSD(json['Dcoeff']) * 10 ** 12).toFixed(2);
+                } else {
+                    document.getElementById('HistDfitDetails1').innerHTML = "";
+                    document.getElementById('HistDfitDetails2').innerHTML = "";
+                    document.getElementById('HistDfitDetailsCCF').innerHTML = "";
+                    document.getElementById('HistDmodelProb').innerHTML = "";
+                }
+            }
+
+
+
+            document.getElementById("getMinXIndex").innerHTML = 1;
+            document.getElementById("getMinYIndex").innerHTML = 1;
+            document.getElementById("getMaxXIndex").innerHTML = maxxInd;
+            document.getElementById("getMaxYIndex").innerHTML = maxyInd;
+
+        }
+
+
+
+
+
+
+        /*
+        Item and Event function listener
+        */
+
+
+        function adjustValueXinput(value) {
+            console.log('index before: ' + index);
+            inputXInd = value;
+            setIndex(inputXInd, inputYInd);
+            plot_changeACFsingle(ACFsingle_mode);
+            Plotly.redraw('myDiv');
+            console.log('inputX index:' + inputXInd);
+        }
+
+        function adjustValueYinput(value) {
+            console.log('index before: ' + index);
+            inputYInd = value;
+            setIndex(inputXInd, inputYInd);
+            plot_changeACFsingle(ACFsingle_mode);
+            Plotly.redraw('myDiv');
+            console.log('inputY index: ' + inputXInd);
+        }
+
+        function changeHeading1() {
+            console.log('index before: ' + index);
+            var elm = document.getElementById("heading1");  // One element
+            elm.innerHTML = "Index: " + index;
+            index = index + 1;
+            plot_changeACFsingle(ACFsingle_mode);
+            Plotly.redraw('myDiv');
+        }
+
+        document.getElementById("xaxis_logswitch").addEventListener('change', function () {
+            if (layoutACFsingle.xaxis.type == 'log') {
+                layoutACFsingle.xaxis.type = '';
+            } else {
+                layoutACFsingle.xaxis.type = 'log';
+            }
+            Plotly.redraw('myDiv');
+
+        });
+
+
+
+
+        let numCurve1 = json['G(tau)1'].length;
+        let numPointsPerCurve1 = json['timeLag'].length;
+        let numFitted1 = 0;
+        if (json['doFit']) {
+            for (i = 0; i < numCurve1; i++) {
+                if (json['isFitted1'][i] == true) {
+                    numFitted1++;
+                }
+            }
+        }
+
+        let numCurve2 = json['G(tau)2'].length;
+        let numPointsPerCurve2 = json['timeLag'].length;
+        let numFitted2 = 0;
+        if (json['doFit']) {
+            for (i = 0; i < numCurve2; i++) {
+                if (json['isFitted2'][i] == true) {
+                    numFitted2++;
+                }
+            }
+        }
+
+        let numCurveCCF = json['G(tau)CCF'].length;
+        let numPointsPerCurveCCF = json['timeLag'].length;
+        let numFittedCCF = 0;
+        if (json['doFit']) {
+            for (i = 0; i < numCurveCCF; i++) {
+                if (json['isFittedCCF'][i] == true) {
+                    numFittedCCF++;
+                }
+            }
+        }
+
+        let numValidCCFq = 0;
+        if (json['doFit']) {
+            for (i = 0; i < json['CCFq'].length; i++) {
+                if (json['CCFq'][i] != 0) {
+                    numValidCCFq++;
+                }
+            }
+        }
+
+
+
+        console.log("-------param---------");
+        console.log(json['title']);
+        console.log(json['exposureTime']);
+        console.log(json['correlatorP']);
+        console.log(json['correlatorQ']);
+        console.log(json['binningX']);
+        console.log(json['binningY']);
+        console.log(json['width']);
+        console.log(json['height']);
+        console.log(json['totalFrame']);
+        console.log(json['timeLag'].length);
+        console.log(json['G(tau)1'].length);
+        console.log(json['G(tau)1'][0].length);
+        console.log(json['G(tau)1'][numCurve1 - 1].length);
+        console.log(json['maxY']);
+        console.log(json['minY']);
+        console.log("is bleach corrected green: " + json['isBleachCorrected1']);
+        console.log("is bleach corrected red: " + json['isBleachCorrected2']);
+        console.log("-------param---------");
+
+
+        /*
+        Full ACFs  and CCF plot
+        */
+
+        //filling x axis
+        let xl = json['timeLag'];
+
+        //filling y axis
+        //var data = [trace1, trace2];
+
+        //ACF1 or green channel
+        var dataACFs1 = [];
+        for (i = 0; i < numCurve1; i++) {
+            let yl = json['G(tau)1'][i];
+            let trace = {
+                x: xl,
+                y: yl,
+                mode: "lines",
+                marker: {
+                    color: 'rgb(0, 230, 115)'
+                }
+            };
+            dataACFs1.push(trace);
+        }
+
+        var layoutACFs1 = {
+            title: 'ACFs green ' + ' at ' + json['binningX'] + ' x ' + json['binningY'] + ' binning' + ' with ' + json['correlatorP'] + ',' + json['correlatorQ'] + ' correlator scheme',
+            xaxis: {
+                title: 'τ [s]',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                zeroline: false,
+                type: 'log',
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true
+            },
+            yaxis: {
+                title: 'G(τ)',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                zeroline: true,
+                zerolinecolor: '#969696',
+                zerolinewidth: 1,
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true,
+                range: [json['minY_green'], json['maxY_green']]
+            },
+            width: 600,
+            height: 400,
+            margin: {
+                l: 100,
+                r: 50,
+                b: 40,
+                t: 40,
+                pad: 4
+            },
+            showlegend: false
+        };
+
+        Plotly.newPlot(graphACF1, dataACFs1, layoutACFs1);
+
+        // ACF2 or red channel
+        var dataACFs2 = [];
+        for (i = 0; i < numCurve2; i++) {
+            let yl = json['G(tau)2'][i];
+            let trace = {
+                x: xl,
+                y: yl,
+                mode: "lines",
+                marker: {
+                    color: 'rgb(255, 102, 102)'
+                }
+            };
+            dataACFs2.push(trace);
+        }
+
+        var layoutACFs2 = {
+            title: 'ACFs red' + ' at ' + json['binningX'] + ' x ' + json['binningY'] + ' binning' + ' with ' + json['correlatorP'] + ',' + json['correlatorQ'] + ' correlator scheme',
+            xaxis: {
+                title: 'τ [s]',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                zeroline: false,
+                type: 'log',
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true
+            },
+            yaxis: {
+                title: 'G(τ)',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                zeroline: true,
+                zerolinecolor: '#969696',
+                zerolinewidth: 1,
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true,
+                range: [json['minY_red'], json['maxY_red']]
+            },
+            width: 600,
+            height: 400,
+            margin: {
+                l: 100,
+                r: 50,
+                b: 40,
+                t: 40,
+                pad: 4
+            },
+            showlegend: false
+        };
+
+        Plotly.newPlot(graphACF2, dataACFs2, layoutACFs2);
+
+        // CCF
+
+        var dataCCFs = [];
+        for (i = 0; i < numCurveCCF; i++) {
+            let yl = json['G(tau)CCF'][i];
+            let trace = {
+                x: xl,
+                y: yl,
+                mode: "lines",
+                marker: {
+                    color: 'rgb(55,83,109)'
+                }
+            };
+            dataCCFs.push(trace);
+        }
+
+        var layoutCCFs = {
+            title: 'CCFs' + ' at ' + json['binningX'] + ' x ' + json['binningY'] + ' binning' + ' with ' + json['correlatorP'] + ',' + json['correlatorQ'] + ' correlator scheme',
+            xaxis: {
+                title: 'τ [s]',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                zeroline: false,
+                type: 'log',
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true
+            },
+            yaxis: {
+                title: 'G(τ)',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                zeroline: true,
+                zerolinecolor: '#969696',
+                zerolinewidth: 1,
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true,
+                range: [json['minY'], json['maxY']]
+            },
+            width: 600,
+            height: 400,
+            margin: {
+                l: 100,
+                r: 50,
+                b: 40,
+                t: 40,
+                pad: 4
+            },
+            showlegend: false
+        };
+
+        Plotly.newPlot(graphCCF, dataCCFs, layoutCCFs);
+
+
+        /*
+        Intensity Traces plot
+        */
+
+        var TraceGraphTitle;
+        if (json['isBleachCorrected1'] || json['isBleachCorrected2']) {
+            TraceGraphTitle = "Average intensity over the whole image after bleach correction.";
+        } else {
+            TraceGraphTitle = "Average intensity over the whole image without bleach correction.";
+        }
+
+
+        var averageTrace1 = {
+            type: "scatter",
+            mode: "lines",
+            x: json['intTime'],
+            y: json['intTrace1'],
+            mode: "lines",
+            marker: {
+                color: 'rgb(0, 230, 115)'
+            }
+        }
+
+        var averageTrace2 = {
+            type: "scatter",
+            mode: "lines",
+            x: json['intTime'],
+            y: json['intTrace2'],
+            mode: "lines",
+            marker: {
+                color: 'rgb(255, 102, 102)'
+            }
+        }
+
+
+        var dataIntTrace = [averageTrace1, averageTrace2];
+        var titleYaxisTrace = "Intensity";
+        var layoutIntTrace = {
+            title: TraceGraphTitle,
+            xaxis: {
+                title: 'Time [s]',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true,
+                autorange: true,
+                type: 'linear'
+            },
+            yaxis: {
+                title: titleYaxisTrace,
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true,
+                range: [json['iminsc'], json['imaxsc']],
+                type: 'linear'
+            },
+            width: 650,
+            height: 250,
+            margin: {
+                l: 100,
+                r: 50,
+                b: 40,
+                t: 40,
+                pad: 4
+            },
+            showlegend: false
+        };
+
+        Plotly.newPlot('intTraceGraph', dataIntTrace, layoutIntTrace);
+
+
+
+
+
+        /*
+        Individual ACF with StdDev and Fit (if doFit=true)
+        */
+
+        //index for converting selected pixel dim
+
+        //display max and min to html
+        //
+        var maxxInd = Math.floor(json['width'] / json['binningX']); // maximum pixle in x direction
+        var maxyInd = Math.floor(json['height'] / json['binningY']); // maxiumum pixel in y direction
+        var inputXInd = 1;
+        var inputYInd = 1;
+        var index;
+
+        function setIndex(pw, ph) { //reading byrow=true; input index start from 1
+            var trueX = pw - 1;
+            var trueY = ph - 1;
+            index = (trueY * maxxInd) + trueX;
+        }
+
+        setIndex(inputXInd, inputYInd);
+
+
+        var dataACFsingle = [];
+        var traceACF1single = {};
+        var traceACF2single = {};
+        var traceCCFsingle = {};
+        var layoutACFsingle = {};
+        var traceFit;
+
+        function plot_changeACFsingle(ACFsingle_mode) {
+            console.log('index after: ' + index);
+
+            if (ACFsingle_mode == 1) {
+                traceACF1single.y = json['G(tau)1'][index];
+                traceACF1single.error_y.array = json['sd1'][index];
+                if (json['doFit']) {
+                    traceFit1.y = json['fitacf1'][index];
+                }
+                layoutACFsingle.title = 'ACF green' + ' at pixel coordinate (' + inputXInd + ',' + inputYInd + ')';
+
+            }
+
+            if (ACFsingle_mode == 2) {
+                traceACF2single.y = json['G(tau)2'][index];
+                traceACF2single.error_y.array = json['sd2'][index];
+                if (json['doFit']) {
+                    traceFit2.y = json['fitacf2'][index];
+                }
+                layoutACFsingle.title = 'ACF red' + ' at pixel coordinate (' + inputXInd + ',' + inputYInd + ')';
+            }
+
+            if (ACFsingle_mode == 3) {
+                traceCCFsingle.y = json['G(tau)CCF'][index];
+                traceCCFsingle.error_y.array = json['sdCCF'][index];
+                if (json['doFit']) {
+                    traceFitCCF.y = json['fitccf'][index];
+                }
+                layoutACFsingle.title = 'CCF' + ' at pixel coordinate (' + inputXInd + ',' + inputYInd + ')';
+
+            }
+
+            if (ACFsingle_mode == 4) {
+
+                traceACF1single.y = json['G(tau)1'][index];
+                traceACF1single.error_y.array = json['sd1'][index];
+                traceACF2single.y = json['G(tau)2'][index];
+                traceACF2single.error_y.array = json['sd2'][index];
+                traceCCFsingle.y = json['G(tau)CCF'][index];
+                traceCCFsingle.error_y.array = json['sdCCF'][index];
+                if (json['doFit']) {
+                    traceFit1.y = json['fitacf1'][index];
+                    traceFit2.y = json['fitacf2'][index];
+                    traceFitCCF.y = json['fitccf'][index];
+                }
+                layoutACFsingle.title = 'ACF green, ACF red and CCF' + ' at pixel coordinate (' + inputXInd + ',' + inputYInd + ')';
+
+
+            }
+
+
+
+        }
+
+        traceACF1single = {
+            x: json['timeLag'],
+            y: json['G(tau)1'][index], //TODO change to index
+            mode: "markers",
+            marker: {
+                color: 'rgb(102, 153, 153)'
+            },
+            error_y: {
+                type: 'data',
+                array: json['sd1'][index], //TODO change to index
+                visible: true
+            },
+            type: 'scatter'
+        };
+
+        traceACF2single = {
+            x: json['timeLag'],
+            y: json['G(tau)2'][index], //TODO change to index
+            mode: "markers",
+            marker: {
+                color: 'rgb(179, 119, 0)'
+            },
+            error_y: {
+                type: 'data',
+                array: json['sd2'][index], //TODO change to index
+                visible: true
+            },
+            type: 'scatter'
+        };
+
+        traceCCFsingle = {
+            x: json['timeLag'],
+            y: json['G(tau)CCF'][index], //TODO change to index
+            mode: "markers",
+            marker: {
+                color: 'rgb(115, 115, 115)'
+            },
+            error_y: {
+                type: 'data',
+                array: json['sdCCF'][index], //TODO change to index
+                visible: true
+            },
+            type: 'scatter'
+        };
+
+        dataACFsingle.push(traceACF1single); //green raw correlation with sd
+        dataACFsingle.push(traceACF2single); // red raw correlation with sd
+        dataACFsingle.push(traceCCFsingle); // ccf and sd
+
+        if (json['doFit']) {
+            traceFit1 = {
+                x: json['timeLag'],
+                y: json['fitacf1'][index], //TODO change to index
+                mode: "lines",
+                marker: {
+                    color: 'rgb(0, 230, 115)'
+                },
+                type: 'scatter'
+            };
+
+
+            traceFit2 = {
+                x: json['timeLag'],
+                y: json['fitacf2'][index], //TODO change to index
+                mode: "lines",
+                marker: {
+                    color: 'rgb(255, 102, 102)'
+                },
+                type: 'scatter'
+            };
+
+            traceFitCCF = {
+                x: json['timeLag'],
+                y: json['fitccf'][index], //TODO change to index
+                mode: "lines",
+                marker: {
+                    color: 'rgb(55,83,109)'
+                },
+                type: 'scatter'
+            };
+            dataACFsingle.push(traceFit1); // green fit
+            dataACFsingle.push(traceFit2); // red fit
+            dataACFsingle.push(traceFitCCF); // CCF fit
+
+        }
+
+
+        layoutACFsingle = {
+            title: 'ACF green, ACF red and CCF' + ' at pixel coordinate (' + inputXInd + ',' + inputYInd + ')',
+            xaxis: {
+                title: 'τ[s]',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                type: 'log',
+                zeroline: false,
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true
+            },
+            yaxis: {
+                title: 'G(τ)',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                zeroline: true,
+                zerolinecolor: '#969696',
+                zerolinewidth: 1,
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true,
+                range: [Math.min(json['minY'], json['minY_green'], json['minY_red']), Math.max(json['maxY'], json['maxY_green'], json['maxY_red'])]
+            },
+            width: 600,
+            height: 400,
+            margin: {
+                l: 100,
+                r: 50,
+                b: 40,
+                t: 40,
+                pad: 4
+            },
+            showlegend: false
+        };
+        Plotly.newPlot('myDiv', dataACFsingle, layoutACFsingle);
+
+
+
+
+
+        /*
+        Misc.
+        */
+
+
+
+
+
+
+        //D
+        function getAvg(array) {
+            const total = array.reduce((acc, c) => acc + c, 0);
+            return total / array.length;
+        }
+
+        function getSD(array) {
+            const n = array.length;
+            const mean = array.reduce((a, b) => a + b) / n;
+            const s = Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
+            return s;
+        }
+
+
+        // Setting Html attribute using js script variable (attribute will get updated)
+        document.getElementById("rangeInputWidth").setAttribute('min', 1);
+        document.getElementById("rangeInputWidth").setAttribute('max', maxxInd);
+        document.getElementById("rangeInputWidth").setAttribute('value', inputXInd);
+        document.getElementById("rangeInputHeight").setAttribute('min', 1);
+        document.getElementById("rangeInputHeight").setAttribute('max', maxyInd);
+        document.getElementById("rangeInputHeight").setAttribute('value', inputYInd);
+
+        //return fitInfo
+        function getFitInfo() {
+            var fitInfo;
+            if (json['doFit']) {
+                if (json['isGLS']) {
+                    if (json['isBayes']) {
+                        fitInfo = 'Generalized Least Square + Bayes';
+                    } else {
+                        fitInfo = 'Generalized Least Square';
+                    }
+
+                } else {
+                    if (json['isBayes']) {
+                        fitInfo = 'Non-Linear Least Square + Bayes';
+                    } else {
+                        fitInfo = 'Non-Linear Least Square';
+                    }
+                }
+
+            } else {
+                fitInfo = 'Fitting not performed';
+
+            }
+            return fitInfo;
+        }
+
+        /*
+        Histogram D of green channel, red channel, CCF, and CCFq
+        */
+
+        function Dtitle() {
+
+            var text = document.getElementById("myHistogramText");
+            var toWrite;
+            if (json['doFit']) {
+                toWrite = "Fitted values";
+                //toWrite = "Histogram of Diffusion Coefficient μm" + square.sup() + "/s";
+            } else {
+                toWrite = "<h3>Fitting was not selected.</h3>";
+            }
+            text.innerHTML = toWrite;
+
+        }
+
+        Dtitle();
+        // Green channel D Histogram
+        var xD_1 = [];
+        var traceD_1 = {};
+        var dataD_1 = [];
+        var layoutD_1 = {};
+
+        // Red channel D Histogram
+        var xD_2 = [];
+        var traceD_2 = {};
+        var dataD_2 = [];
+        var layoutD_2 = {};
+
+        // CCF D Histogram
+        var xD_CCF = [];
+        var traceD_CCF = {};
+        var dataD_CCF = [];
+        var layoutD_CCF = {};
+
+        // CCFq Histogram
+        var xD_CCFq = [];
+        var traceD_CCFq = {};
+        var dataD_CCFq = [];
+        var layoutD_CCFq = {};
+
+        if (json['doFit']) {
+            var trimmedDcoeff1 = json['Dcoeff1'].filter(function (val) {
+                return val !== 0;
+            });
+            var trimmedDcoeff2 = json['Dcoeff2'].filter(function (val) {
+                return val !== 0;
+            });
+            var trimmedDcoeffCCF = json['DcoeffCCF'].filter(function (val) {
+                return val !== 0;
+            });
+            var trimmedCCFq = json['CCFq'].filter(function (val) {
+                return val !== 0;
+            });
+
+            // Green channel D Histogram
+
+
+            for (var i = 0; i < trimmedDcoeff1.length; i++) {
+                xD_1[i] = trimmedDcoeff1[i] * 10 ** 12; //μm2/s
+            }
+
+            traceD_1 = {
+                x: xD_1, // μm2/s
+                type: 'histogram',
+                marker: {
+                    color: 'rgb(0, 179, 0)'
+                },
+                autobinx: true
+                //xbins: { start: 0, end: 100000, size: 0.05 }
+            };
+
+            dataD_1.push(traceD_1);
+
+            layoutD_1 = {
+                title: "Diffusion Coefficient [μm" + square.sup() + "/s]",
+                xaxis: {
+                    title: 'D[μm' + square.sup() + '/s]',
+                    autotick: true,
+                    ticks: 'inside',
+                    ticklen: 5,
+                    tickwidth: 2,
+                    tickcolor: 'darkgrey',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'black'
+                    },
+                    showgrid: true,
+                    zeroline: false,
+                    showline: true,
+                    mirror: true,
+                    linewidth: 3,
+                    linecolor: '#636363',
+                    showticklabel: true,
+                    range: [Math.min.apply(null, json['Dcoeff1']) * 10 ** 12, Math.max.apply(null, json['Dcoeff1']) * 10 ** 12]
+                },
+                yaxis: {
+                    title: 'Frequency',
+                    autotick: true,
+                    ticks: 'inside',
+                    ticklen: 5,
+                    tickwidth: 2,
+                    tickcolor: 'darkgrey',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'black'
+                    },
+                    showgrid: true,
+                    zeroline: true,
+                    zerolinecolor: '#969696',
+                    zerolinewidth: 1,
+                    showline: true,
+                    mirror: true,
+                    linewidth: 3,
+                    linecolor: '#636363',
+                    showticklabel: true,
+                },
+                width: 600,
+                height: 400,
+                margin: {
+                    l: 100,
+                    r: 50,
+                    b: 40,
+                    t: 40,
+                    pad: 4
+                },
+                showlegend: false
+
+            }
+
+            Plotly.newPlot('graph_HistD_1', dataD_1, layoutD_1);
+
+            // Red channel D Histogram
+
+            for (var i = 0; i < trimmedDcoeff2.length; i++) {
+                xD_2[i] = trimmedDcoeff2[i] * 10 ** 12; //μm2/s
+            }
+
+            traceD_2 = {
+                x: xD_2, // μm2/s
+                type: 'histogram',
+                marker: {
+                    color: 'rgb(255, 102, 102)'
+                },
+                autobinx: true
+                //xbins: { start: 0, end: 100000, size: 0.05 }
+            };
+
+            dataD_2.push(traceD_2);
+
+            layoutD_2 = {
+                title: "Diffusion Coefficient [μm" + square.sup() + "/s]",
+                xaxis: {
+                    title: 'D[μm' + square.sup() + '/s]',
+                    autotick: true,
+                    ticks: 'inside',
+                    ticklen: 5,
+                    tickwidth: 2,
+                    tickcolor: 'darkgrey',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'black'
+                    },
+                    showgrid: true,
+                    zeroline: false,
+                    showline: true,
+                    mirror: true,
+                    linewidth: 3,
+                    linecolor: '#636363',
+                    showticklabel: true,
+                    range: [Math.min.apply(null, json['Dcoeff2']) * 10 ** 12, Math.max.apply(null, json['Dcoeff2']) * 10 ** 12]
+                },
+                yaxis: {
+                    title: 'Frequency',
+                    autotick: true,
+                    ticks: 'inside',
+                    ticklen: 5,
+                    tickwidth: 2,
+                    tickcolor: 'darkgrey',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'black'
+                    },
+                    showgrid: true,
+                    zeroline: true,
+                    zerolinecolor: '#969696',
+                    zerolinewidth: 1,
+                    showline: true,
+                    mirror: true,
+                    linewidth: 3,
+                    linecolor: '#636363',
+                    showticklabel: true,
+                },
+                width: 600,
+                height: 400,
+                margin: {
+                    l: 100,
+                    r: 50,
+                    b: 40,
+                    t: 40,
+                    pad: 4
+                },
+                showlegend: false
+
+            }
+
+            //Plotly.newPlot('graph_HistD_1', dataD_2, layoutD_2);
+
+
+            // CCF histogram of D
+            for (var i = 0; i < trimmedDcoeffCCF.length; i++) {
+                xD_CCF[i] = trimmedDcoeffCCF[i] * 10 ** 12; //μm2/s
+            }
+
+            traceD_CCF = {
+                x: xD_CCF, // μm2/s
+                type: 'histogram',
+                marker: {
+                    color: 'rgb(55,83,109)'
+                },
+                autobinx: true
+                //xbins: { start: 0, end: 100000, size: 0.05 }
+            };
+
+            dataD_CCF.push(traceD_CCF);
+
+            layoutD_CCF = {
+                title: "Diffusion Coefficient [μm" + square.sup() + "/s]",
+                xaxis: {
+                    title: 'D[μm' + square.sup() + '/s]',
+                    autotick: true,
+                    ticks: 'inside',
+                    ticklen: 5,
+                    tickwidth: 2,
+                    tickcolor: 'darkgrey',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'black'
+                    },
+                    showgrid: true,
+                    zeroline: false,
+                    showline: true,
+                    mirror: true,
+                    linewidth: 3,
+                    linecolor: '#636363',
+                    showticklabel: true,
+                    range: [Math.min.apply(null, json['DcoeffCCF']) * 10 ** 12, Math.max.apply(null, json['DcoeffCCF']) * 10 ** 12]
+                },
+                yaxis: {
+                    title: 'Frequency',
+                    autotick: true,
+                    ticks: 'inside',
+                    ticklen: 5,
+                    tickwidth: 2,
+                    tickcolor: 'darkgrey',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'black'
+                    },
+                    showgrid: true,
+                    zeroline: true,
+                    zerolinecolor: '#969696',
+                    zerolinewidth: 1,
+                    showline: true,
+                    mirror: true,
+                    linewidth: 3,
+                    linecolor: '#636363',
+                    showticklabel: true,
+                },
+                width: 600,
+                height: 400,
+                margin: {
+                    l: 100,
+                    r: 50,
+                    b: 40,
+                    t: 40,
+                    pad: 4
+                },
+                showlegend: false
+
+            }
+
+            //Plotly.newPlot('graph_HistD_1', dataD_CCF, layoutD_CCF);
+
+
+            // Histogram CCFq
+            for (var i = 0; i < trimmedCCFq.length; i++) {
+                xD_CCFq[i] = trimmedCCFq[i]; //μm2/s
+            }
+
+            traceD_CCFq = {
+                x: xD_CCFq, // μm2/s
+                type: 'histogram',
+                marker: {
+                    color: 'rgb(77, 166, 255)'
+                }
+            };
+
+            dataD_CCFq.push(traceD_CCFq);
+
+            layoutD_CCFq = {
+                title: "Cross-correlation q",
+                xaxis: {
+                    title: 'q',
+                    autotick: true,
+                    ticks: 'inside',
+                    ticklen: 5,
+                    tickwidth: 2,
+                    tickcolor: 'darkgrey',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'black'
+                    },
+                    showgrid: true,
+                    zeroline: false,
+                    showline: true,
+                    mirror: true,
+                    linewidth: 3,
+                    linecolor: '#636363',
+                    showticklabel: true
+                },
+                yaxis: {
+                    title: 'Frequency',
+                    autotick: true,
+                    ticks: 'inside',
+                    ticklen: 5,
+                    tickwidth: 2,
+                    tickcolor: 'darkgrey',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'black'
+                    },
+                    showgrid: true,
+                    zeroline: true,
+                    zerolinecolor: '#969696',
+                    zerolinewidth: 1,
+                    showline: true,
+                    mirror: true,
+                    linewidth: 3,
+                    linecolor: '#636363',
+                    showticklabel: true,
+                },
+                width: 600,
+                height: 400,
+                margin: {
+                    l: 100,
+                    r: 50,
+                    b: 40,
+                    t: 40,
+                    pad: 4
+                },
+                showlegend: false
+
+            }
+
+            //Plotly.newPlot('graph_HistD_1', dataD_CCFq, layoutD_CCFq);
+
+        }
+
+        /*
+    Heat map
+    */
+        if (json['doFit']) {
+
+            //Green channel is Fitted Map
+            var isFittedArray_1 = [];
+            var temp = [];
+
+            for (var y = 0; y < maxyInd; y++) {
+                temp.push([]);
+                temp[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    temp[y][x] = json['isFitted1'][index] * 1;
+                }
+            }
+
+            for (var y = 0; y < maxyInd; y++) {
+                isFittedArray_1.push([]);
+                isFittedArray_1[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    isFittedArray_1[y][x] = temp[maxyInd - 1 - y][x]
+                }
+            }
+
+            var dataisFittedmap_1 = [
+                {
+                    z: isFittedArray_1,
+                    showscale: false,
+                    colorscale: [
+
+                        // Let first 10% (0.1) of the values have color rgb(0, 0, 0)
+
+                        [0, 'rgb(0, 0, 0)'],
+                        [0.1, 'rgb(0, 0, 0)'],
+
+                        // Let values between 10-20% of the min and max of z
+                        // have color rgb(20, 20, 20)
+
+                        [0.1, 'rgb(20, 20, 20)'],
+                        [0.2, 'rgb(20, 20, 20)'],
+
+                        // Values between 20-30% of the min and max of z
+                        //have color rgb(40, 40, 40)
+
+                        [0.2, 'rgb(40, 40, 40)'],
+                        [0.3, 'rgb(40, 40, 40)'],
+
+                        [0.3, 'rgb(60, 60, 60)'],
+                        [0.4, 'rgb(60, 60, 60)'],
+
+                        [0.4, 'rgb(80, 80, 80)'],
+                        [0.5, 'rgb(80, 80, 80)'],
+
+                        [0.5, 'rgb(100, 100, 100)'],
+                        [0.6, 'rgb(100, 100, 100)'],
+
+                        [0.6, 'rgb(120, 120, 120)'],
+                        [0.7, 'rgb(120, 120, 120)'],
+
+                        [0.7, 'rgb(140, 140, 140)'],
+                        [0.8, 'rgb(140, 140, 140)'],
+
+                        [0.8, 'rgb(160, 160, 160)'],
+                        [0.9, 'rgb(160, 160, 160)'],
+
+                        [0.9, 'rgb(180, 180, 180)'],
+                        [1.0, 'rgb(180, 180, 180)']
+                    ],
+                    type: 'heatmap',
+                    hovertemplate: 'Pixel fitted = %{z} | coordinate (%{x},%{y})'
+                }
+            ];
+
+            var layoutisFittedmap_1 = {
+                title: "(Green Channel) Fitted Map " + maxxInd + " x " + maxyInd + " pixels",
+                width: 500,
+                height: 500,
+                dimension: "pixel",
+                autosize: false,
+                xaxis: {
+                    visible: false
+                },
+                yaxis: {
+                    visible: false,
+                    scaleanchor: 'x'
+                }
+            }
+
+
+            // Red channel is Fitted Array
+            var isFittedArray_2 = [];
+            var temp = [];
+
+            for (var y = 0; y < maxyInd; y++) {
+                temp.push([]);
+                temp[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    temp[y][x] = json['isFitted2'][index] * 1;
+                }
+            }
+
+            for (var y = 0; y < maxyInd; y++) {
+                isFittedArray_2.push([]);
+                isFittedArray_2[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    isFittedArray_2[y][x] = temp[maxyInd - 1 - y][x]
+                }
+            }
+
+            var dataisFittedmap_2 = [
+                {
+                    z: isFittedArray_2,
+                    showscale: false,
+                    colorscale: [
+
+                        // Let first 10% (0.1) of the values have color rgb(0, 0, 0)
+
+                        [0, 'rgb(0, 0, 0)'],
+                        [0.1, 'rgb(0, 0, 0)'],
+
+                        // Let values between 10-20% of the min and max of z
+                        // have color rgb(20, 20, 20)
+
+                        [0.1, 'rgb(20, 20, 20)'],
+                        [0.2, 'rgb(20, 20, 20)'],
+
+                        // Values between 20-30% of the min and max of z
+                        //have color rgb(40, 40, 40)
+
+                        [0.2, 'rgb(40, 40, 40)'],
+                        [0.3, 'rgb(40, 40, 40)'],
+
+                        [0.3, 'rgb(60, 60, 60)'],
+                        [0.4, 'rgb(60, 60, 60)'],
+
+                        [0.4, 'rgb(80, 80, 80)'],
+                        [0.5, 'rgb(80, 80, 80)'],
+
+                        [0.5, 'rgb(100, 100, 100)'],
+                        [0.6, 'rgb(100, 100, 100)'],
+
+                        [0.6, 'rgb(120, 120, 120)'],
+                        [0.7, 'rgb(120, 120, 120)'],
+
+                        [0.7, 'rgb(140, 140, 140)'],
+                        [0.8, 'rgb(140, 140, 140)'],
+
+                        [0.8, 'rgb(160, 160, 160)'],
+                        [0.9, 'rgb(160, 160, 160)'],
+
+                        [0.9, 'rgb(180, 180, 180)'],
+                        [1.0, 'rgb(180, 180, 180)']
+                    ],
+                    type: 'heatmap',
+                    hovertemplate: 'Pixel fitted = %{z} | coordinate (%{x},%{y})'
+                }
+            ];
+
+            var layoutisFittedmap_2 = {
+                title: "(Red Channel) Fitted Map " + maxxInd + " x " + maxyInd + " pixels",
+                width: 500,
+                height: 500,
+                dimension: "pixel",
+                autosize: false,
+                xaxis: {
+                    visible: false
+                },
+                yaxis: {
+                    visible: false,
+                    scaleanchor: 'x'
+                }
+            }
+
+            //CCF is Fitted map
+            var isFittedArray_CCF = [];
+            var temp = [];
+
+            for (var y = 0; y < maxyInd; y++) {
+                temp.push([]);
+                temp[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    temp[y][x] = json['isFittedCCF'][index] * 1;
+                }
+            }
+
+            for (var y = 0; y < maxyInd; y++) {
+                isFittedArray_CCF.push([]);
+                isFittedArray_CCF[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    isFittedArray_CCF[y][x] = temp[maxyInd - 1 - y][x]
+                }
+            }
+
+            var dataisFittedmap_CCF = [
+                {
+                    z: isFittedArray_CCF,
+                    showscale: false,
+                    colorscale: [
+
+                        // Let first 10% (0.1) of the values have color rgb(0, 0, 0)
+
+                        [0, 'rgb(0, 0, 0)'],
+                        [0.1, 'rgb(0, 0, 0)'],
+
+                        // Let values between 10-20% of the min and max of z
+                        // have color rgb(20, 20, 20)
+
+                        [0.1, 'rgb(20, 20, 20)'],
+                        [0.2, 'rgb(20, 20, 20)'],
+
+                        // Values between 20-30% of the min and max of z
+                        //have color rgb(40, 40, 40)
+
+                        [0.2, 'rgb(40, 40, 40)'],
+                        [0.3, 'rgb(40, 40, 40)'],
+
+                        [0.3, 'rgb(60, 60, 60)'],
+                        [0.4, 'rgb(60, 60, 60)'],
+
+                        [0.4, 'rgb(80, 80, 80)'],
+                        [0.5, 'rgb(80, 80, 80)'],
+
+                        [0.5, 'rgb(100, 100, 100)'],
+                        [0.6, 'rgb(100, 100, 100)'],
+
+                        [0.6, 'rgb(120, 120, 120)'],
+                        [0.7, 'rgb(120, 120, 120)'],
+
+                        [0.7, 'rgb(140, 140, 140)'],
+                        [0.8, 'rgb(140, 140, 140)'],
+
+                        [0.8, 'rgb(160, 160, 160)'],
+                        [0.9, 'rgb(160, 160, 160)'],
+
+                        [0.9, 'rgb(180, 180, 180)'],
+                        [1.0, 'rgb(180, 180, 180)']
+                    ],
+                    type: 'heatmap',
+                    hovertemplate: 'Pixel fitted = %{z} | coordinate (%{x},%{y})'
+                }
+            ];
+
+            var layoutisFittedmap_CCF = {
+                title: "(Cross) Fitted Map " + maxxInd + " x " + maxyInd + " pixels",
+                width: 500,
+                height: 500,
+                dimension: "pixel",
+                autosize: false,
+                xaxis: {
+                    visible: false
+                },
+                yaxis: {
+                    visible: false,
+                    scaleanchor: 'x'
+                }
+            }
+
+
+            // Green channel D map
+            var widthToHeightRatio = maxxInd / maxyInd;
+            // transform Dcoeff into 2Darray
+            var fitResDcoeff_1 = [];
+            var temp = [];
+            for (var y = 0; y < maxyInd; y++) {
+                temp.push([]);
+                temp[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    temp[y][x] = json['Dcoeff1'][index] * 10 ** 12;
+                }
+            }
+
+            for (var y = 0; y < maxyInd; y++) {
+                fitResDcoeff_1.push([]);
+                fitResDcoeff_1[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    fitResDcoeff_1[y][x] = temp[maxyInd - 1 - y][x]
+                }
+            }
+
+
+            var dataDmap_1 = [
+                {
+                    z: fitResDcoeff_1,
+                    showscale: true,
+                    fixedrange: true,
+                    type: 'heatmap',
+                    colorbar: {
+                        title: 'μm ' + square.sup() + '/s',
+                        titleside: 'top',
+                        titlefont: { color: 'black' }
+                    },
+                    hovertemplate: 'D= %{z:.3f} μm ' + square.sup() + '/s | coordinate (%{x},%{y})',
+                    zauto: true,
+                    zmin: 0.4,
+                    zmax: 2,
+                    colorscale: 'Hot'
+                }
+            ];
+
+            var layoutDmap_1 = {
+                title: "(Green Channel) Diffusion Coefficient Map " + maxxInd + " x " + maxyInd + " pixels",
+                width: 500,
+                height: 500,
+                dimension: "pixel",
+                autosize: false,
+                xaxis: {
+                    visible: false
+                },
+                yaxis: {
+                    visible: false,
+                    scaleanchor: 'x'
+                }
+            }
+
+            // display D map first when browser load. data and layout changes a button is clicked.
+            Plotly.newPlot('graph_HeatMapD', dataDmap_1, layoutDmap_1);
+
+
+            //Red channel D map
+            var fitResDcoeff_2 = [];
+            var temp = [];
+            for (var y = 0; y < maxyInd; y++) {
+                temp.push([]);
+                temp[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    temp[y][x] = json['Dcoeff2'][index] * 10 ** 12;
+                }
+            }
+
+            for (var y = 0; y < maxyInd; y++) {
+                fitResDcoeff_2.push([]);
+                fitResDcoeff_2[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    fitResDcoeff_2[y][x] = temp[maxyInd - 1 - y][x]
+                }
+            }
+
+
+            var dataDmap_2 = [
+                {
+                    z: fitResDcoeff_2,
+                    type: 'heatmap',
+                    hovertemplate: 'D= %{z:.3f} μm ' + square.sup() + '/s | coordinate (%{x},%{y})',
+                    colorbar: {
+                        title: 'μm ' + square.sup() + '/s',
+                        titleside: 'top',
+                        titlefont: { color: 'black' }
+                    },
+                    zauto: true,
+                    zmin: 0.4,
+                    zmax: 2,
+                    colorscale: 'Hot'
+                }
+            ];
+
+            var layoutDmap_2 = {
+                title: "(Red Channel) Diffusion Coefficient Map " + maxxInd + " x " + maxyInd + " pixels",
+                width: 500,
+                height: 500,
+                dimension: "pixel",
+                autosize: false,
+                xaxis: {
+                    visible: false
+                },
+                yaxis: {
+                    visible: false,
+                    scaleanchor: 'x'
+                }
+            }
+
+            //CCF D map
+            var fitResDcoeff_CCF = [];
+            var temp = [];
+            for (var y = 0; y < maxyInd; y++) {
+                temp.push([]);
+                temp[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    temp[y][x] = json['DcoeffCCF'][index] * 10 ** 12;
+                }
+            }
+
+            for (var y = 0; y < maxyInd; y++) {
+                fitResDcoeff_CCF.push([]);
+                fitResDcoeff_CCF[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    fitResDcoeff_CCF[y][x] = temp[maxyInd - 1 - y][x]
+                }
+            }
+
+
+            var dataDmap_CCF = [
+                {
+                    z: fitResDcoeff_CCF,
+                    colorscale: 'Hot',
+                    type: 'heatmap',
+                    hovertemplate: 'D= %{z:.3f} μm ' + square.sup() + '/s | coordinate (%{x},%{y})',
+                    colorbar: {
+                        title: 'μm ' + square.sup() + '/s',
+                        titleside: 'top',
+                        titlefont: { color: 'black' }
+                    },
+                }
+            ];
+
+            var layoutDmap_CCF = {
+                title: "(Cross) Diffusion Coefficient Map " + maxxInd + " x " + maxyInd + " pixels",
+                width: 500,
+                height: 500,
+                dimension: "pixel",
+                autosize: false,
+                xaxis: {
+                    visible: false
+                },
+                yaxis: {
+                    visible: false,
+                    scaleanchor: 'x'
+                }
+            }
+
+            //CCFq Maps
+            var q_CCFq = [];
+            var temp = [];
+            for (var y = 0; y < maxyInd; y++) {
+                temp.push([]);
+                temp[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    temp[y][x] = json['CCFq'][index];
+                }
+            }
+
+            for (var y = 0; y < maxyInd; y++) {
+                q_CCFq.push([]);
+                q_CCFq[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    q_CCFq[y][x] = temp[maxyInd - 1 - y][x]
+                }
+            }
+
+
+            var dataQmap_CCFq = [
+                {
+                    z: q_CCFq,
+                    colorscale: 'YlGnBu',
+                    type: 'heatmap',
+                    hovertemplate: 'q= %{z:.2f} | coordinate (%{x},%{y})'
+                }
+            ];
+
+            var layoutQmap_CCFq = {
+                title: "q Map " + maxxInd + " x " + maxyInd + " pixels",
+                width: 500,
+                height: 500,
+                dimension: "pixel",
+                autosize: false,
+                xaxis: {
+                    visible: false
+                },
+                yaxis: {
+                    visible: false,
+                    scaleanchor: 'x'
+                }
+            }
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        console.log('doFit: ' + json['doFit']);
+        console.log('isBayes: ' + json['isBayes']);
+        console.log('isGLS: ' + json['isGLS']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

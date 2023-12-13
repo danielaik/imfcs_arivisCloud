@@ -1,0 +1,269 @@
+{
+    "spec": {
+        "inputs": {
+            "input_image": {
+                "type:file": {
+                    "format": [
+                        "ome-tiff",
+                        "tiff"
+                    ]
+                }
+            },
+            "input_binx": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 2048
+                },
+                "default": 1
+            },
+            "input_frametime": {
+                "default": 0.001,
+                "type:number": {
+                    "lower_inclusive": 0.0001,
+                    "upper_inclusive": 0.1
+                }
+            },
+            "input_correlator_q": {
+                "type:number": {
+                    "lower_inclusive": 4,
+                    "upper_inclusive": 14
+                },
+                "default": 8
+            },
+            "input_correlator_p": {
+                "default": 16,
+                "type:integer": {
+                    "min": 8,
+                    "max": 256
+                }
+            },
+            "input_biny": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 2048
+                },
+                "default": 1
+            },
+            "input_pixelsize": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 48
+                },
+                "default": 24
+            },
+            "input_magnification": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 500
+                },
+                "default": 100
+            },
+            "input_na": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 5
+                },
+                "default": 1.49
+            },
+            "input_fit": {
+                "type:number": {
+                    "lower_inclusive": 0,
+                    "upper_inclusive": 1
+                },
+                "default": 1
+            },
+            "input_gls": {
+                "type:number": {
+                    "lower_inclusive": 0,
+                    "upper_inclusive": 1
+                },
+                "default": 0
+            },
+            "input_bayes": {
+                "type:number": {
+                    "lower_inclusive": 0,
+                    "upper_inclusive": 1
+                },
+                "default": 0
+            },
+            "imagestack2_(tif)": {
+                "type:file": {
+                    "format": [
+                        "ome-tiff",
+                        "tiff"
+                    ]
+                }
+            },
+            "emission_wavelength_(green_channel)_[nm]": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 800
+                },
+                "default": 515
+            },
+            "emission_wavelength_(red_channel)_[nm]": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 800
+                },
+                "default": 576
+            },
+            "filterll": {
+                "type:integer": {
+                    "min": 0,
+                    "max": 65536
+                },
+                "default": 0
+            },
+            "filterul": {
+                "type:integer": {
+                    "min": 0,
+                    "max": 65536
+                },
+                "default": 65536
+            }
+        },
+        "outputs": {
+            "output_xlsx": {
+                "type:file": {
+                    "format": [
+                        "*"
+                    ]
+                }
+            },
+            "output_html": {
+                "type:file": {
+                    "format": [
+                        "*"
+                    ]
+                }
+            }
+        }
+    },
+    "ui": {
+        "inputs": {
+            "input_image": {
+                "index": 1,
+                "label": "Green channel",
+                "description": "Imagestack to be cross-correlated (16 or 32 bit tiff)",
+                "widget:none": null
+            },
+            "input_binx": {
+                "index": 8,
+                "label": "Pixel binning X",
+                "description": "Enter width bin dimension in pixels",
+                "widget:textbox": {}
+            },
+            "input_frametime": {
+                "index": 2,
+                "label": "Exposure time [s]",
+                "description": "frametime [s]",
+                "widget:textbox": {}
+            },
+            "input_correlator_q": {
+                "index": 11,
+                "label": "Correlator q",
+                "description": "q parameter of a multi-tau correlator architecture (any integer)",
+                "widget:slider": {
+                    "step": 1
+                }
+            },
+            "input_correlator_p": {
+                "index": 10,
+                "label": "Correlator p",
+                "description": "p parameter of a multi-tau correlator architecture (a multiple of 4)",
+                "widget:slider": {
+                    "step": 4
+                }
+            },
+            "input_biny": {
+                "index": 9,
+                "label": "Pixel binning Y",
+                "description": "Enter height bin dimension in pixels",
+                "widget:textbox": {}
+            },
+            "input_pixelsize": {
+                "index": 3,
+                "label": "Pixel size [um]",
+                "description": "Input camera pixelsize in micrometer",
+                "widget:textbox": {}
+            },
+            "input_magnification": {
+                "index": 5,
+                "label": "Objective magnification",
+                "description": "Input objective magnification",
+                "widget:textbox": {}
+            },
+            "input_na": {
+                "index": 4,
+                "label": "Numerical Aperture",
+                "description": "Input objective Numerical Aperture",
+                "widget:textbox": {}
+            },
+            "input_fit": {
+                "index": 12,
+                "label": "Fitting ( 1 | 0 )",
+                "widget:textbox": {},
+                "description": "Insert 0 for no fit; 1 for data fitting"
+            },
+            "input_gls": {
+                "index": 13,
+                "label": "Generalized Least Square ( 1 | 0 )",
+                "description": "input 0 for NLS; input 1 for GLS",
+                "widget:textbox": {}
+            },
+            "input_bayes": {
+                "index": 14,
+                "label": "Bayes hypothesis ( 1 | 0 )",
+                "description": "input 1 for yes, 0 for no",
+                "widget:textbox": {}
+            },
+            "imagestack2_(tif)": {
+                "index": 16,
+                "label": "Red channel",
+                "description": "Imagestack to be cross-correlated (16 or 32 bit tiff)",
+                "widget:none": null
+            },
+            "emission_wavelength_(green_channel)_[nm]": {
+                "index": 6,
+                "label": "Emission wavelength (green channel) [nm]",
+                "description": "Input emission wavelength green channel",
+                "widget:textbox": {}
+            },
+            "emission_wavelength_(red_channel)_[nm]": {
+                "index": 7,
+                "label": "Emission wavelength (red channel) [nm]",
+                "description": "Input emission wavelength red channel",
+                "widget:textbox": {}
+            },
+            "filterll": {
+                "index": 17,
+                "label": "Lower threshold (intensity counts in green channel)",
+                "widget:slider": {
+                    "step": 1
+                },
+                "description": "Any pixels (first frame of green imagestack) with intensity lower than the threshold value will be excluded for analysis."
+            },
+            "filterul": {
+                "index": 18,
+                "label": "Upper threshold (intensity counts in green channel)",
+                "description": "Any pixels (first frame of green imagestack) with intensity greater than the threshold value will be excluded for analysis.",
+                "widget:slider": {
+                    "step": 1
+                }
+            }
+        },
+        "outputs": {
+            "output_xlsx": {
+                "index": 1,
+                "label": "Spreadsheet",
+                "description": "output dual-color FCCS in excel"
+            },
+            "output_html": {
+                "index": 2,
+                "label": "Visualization",
+                "description": "Html for visualizing dual-color FCCS"
+            }
+        }
+    }
+}

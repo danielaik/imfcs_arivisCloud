@@ -1,0 +1,54 @@
+{
+    "spec": {
+        "inputs": {
+            "input_image": {
+                "type:file": {
+                    "format": [
+                        "ome-tiff",
+                        "tiff"
+                    ]
+                }
+            },
+            "z_shrink_factor": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 1000
+                },
+                "default": 1
+            }
+        },
+        "outputs": {
+            "output_image": {
+                "type:file": {
+                    "format": [
+                        "tiff",
+                        "ome-tiff"
+                    ]
+                }
+            }
+        }
+    },
+    "ui": {
+        "inputs": {
+            "input_image": {
+                "index": 1,
+                "label": "Input Image",
+                "description": "Imagestack (16 bit tiff)",
+                "widget:none": null
+            },
+            "z_shrink_factor": {
+                "index": 2,
+                "label": "Z Shrink Factor",
+                "description": "bin mode = sum",
+                "widget:textbox": {}
+            }
+        },
+        "outputs": {
+            "output_image": {
+                "index": 1,
+                "label": "Output Image",
+                "description": "Frame binned imagestack (16 bit tiff)"
+            }
+        }
+    }
+}

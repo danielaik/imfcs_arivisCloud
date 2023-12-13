@@ -1,0 +1,54 @@
+{
+    "spec": {
+        "inputs": {
+            "input_image": {
+                "type:file": {
+                    "format": [
+                        "ome-tiff",
+                        "tiff"
+                    ]
+                }
+            },
+            "polynomial_degree": {
+                "type:number": {
+                    "lower_inclusive": 0,
+                    "upper_inclusive": 10
+                },
+                "default": 4
+            }
+        },
+        "outputs": {
+            "output_image": {
+                "type:file": {
+                    "format": [
+                        "ome-tiff",
+                        "tiff"
+                    ]
+                }
+            }
+        }
+    },
+    "ui": {
+        "inputs": {
+            "input_image": {
+                "index": 1,
+                "label": "Input image",
+                "description": "Imagestack to be corrected (16 or 32 bit tiff)",
+                "widget:none": null
+            },
+            "polynomial_degree": {
+                "index": 2,
+                "label": "Polynomial order",
+                "description": "polynomial degree correction",
+                "widget:textbox": {}
+            }
+        },
+        "outputs": {
+            "output_image": {
+                "index": 1,
+                "label": "Output image",
+                "description": "Bleach corrected imagestack (32 bit tiff)"
+            }
+        }
+    }
+}

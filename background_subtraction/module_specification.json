@@ -1,0 +1,68 @@
+{
+    "spec": {
+        "inputs": {
+            "input_image": {
+                "type:file": {
+                    "format": [
+                        "ome-tiff",
+                        "tiff"
+                    ]
+                }
+            },
+            "background_num": {
+                "type:number": {
+                    "lower_inclusive": 0,
+                    "upper_inclusive": 65536
+                },
+                "default": 65536
+            },
+            "input_background": {
+                "type:file": {
+                    "format": [
+                        "ome-tiff",
+                        "tiff"
+                    ]
+                }
+            }
+        },
+        "outputs": {
+            "output_image": {
+                "type:file": {
+                    "format": [
+                        "ome-tiff",
+                        "tiff"
+                    ]
+                }
+            }
+        }
+    },
+    "ui": {
+        "inputs": {
+            "input_image": {
+                "index": 1,
+                "label": "Input Image",
+                "description": "Imagestack to be background subtracted (16-bit tiff)",
+                "widget:none": null
+            },
+            "background_num": {
+                "index": 2,
+                "label": "Background number",
+                "description": "Set value = 65536 to subtract lowest pixel across frames.",
+                "widget:textbox": {}
+            },
+            "input_background": {
+                "index": 3,
+                "label": "Input Background Image",
+                "description": "Dark/background imagestacks (16-bit tiff)",
+                "widget:none": null
+            }
+        },
+        "outputs": {
+            "output_image": {
+                "index": 1,
+                "label": "Output Image",
+                "description": "Background subtracted imagestack (16-bit tiff)"
+            }
+        }
+    }
+}

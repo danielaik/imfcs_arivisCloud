@@ -1,0 +1,1284 @@
+<html>
+
+<head>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <style>
+        ul {
+            list-style-type: none;
+            columns: 2;
+            -webkit-columns: 2;
+            -moz-columns: 2;
+        }
+
+        li:before {
+            content: "• ";
+        }
+    </style>
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 90px;
+            height: 34px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #2196F3;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: gray;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(55px);
+            -ms-transform: translateX(55px);
+            transform: translateX(55px);
+        }
+
+        /*------ ADDED CSS ---------*/
+        .on {
+            display: none;
+        }
+
+        .on,
+        .off {
+            color: white;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            font-size: 10px;
+            font-family: Verdana, sans-serif;
+        }
+
+        input:checked+.slider .on {
+            display: block;
+        }
+
+        input:checked+.slider .off {
+            display: none;
+        }
+
+        /*--------- END --------*/
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+    <style type="text/css">
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .tg td {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg th {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg .tg-0lax {
+            text-align: left;
+            vertical-align: top
+        }
+    </style>
+
+    <style type="text/css">
+        .tg2 {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .tg2 td {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg2 th {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg2 .tg2-0lax {
+            text-align: left;
+            vertical-align: top
+        }
+    </style>
+
+
+
+</head>
+<title>$title</title>
+
+<body onload="myFunction(); cameraParameter();">
+
+
+
+
+    <br>
+
+    <p align="center"><strong>Filename:</strong> <span id="getfilename"></span></p>
+    <br>
+    <table align="center" class="tg" style="border: 1px solid black">
+        <thead>
+            <tr>
+                <th colspan="4" class="text-center" class="tg-0pky"><strong>Acquisition Parameters</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="143" class="tg-0pky">Exposure time [s]: </td>
+                <td width="74" class="tg-0pky"><span id="getexposureTime"></span></td>
+                <td width="166" class="tg-0pky">Pixel size [&#956m]</td>
+                <td width="39" class="tg-0pky"><span id="getpixelsize"></span></td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">Pixel Dim. (w x h)</td>
+                <td class="tg-0pky"><span id="getwidth"></span> x <span id="getheight"></span></td>
+                <td class="tg-0pky">Numerical aperture</td>
+                <td class="tg-0pky"><span id="getNA"></span></td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">Total frame</td>
+                <td class="tg-0pky"><span id="gettotalFrame"></span></td>
+                <td class="tg-0pky">PSF parameter</td>
+                <td class="tg-0pky"><span id="getsigma"></span></td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">Magnification</td>
+                <td class="tg-0pky"><span id="getobjmag"></span></td>
+                <td class="tg-0pky">&#955 emission</td>
+                <td class="tg-0pky"><span id="getemlambda"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>>
+
+    <table align="center" class="tg2" style="border: 1px solid black">
+        <thead>
+            <tr>
+                <th colspan="2" class="text-center" class="tg2-0lax"><strong>Post-processing parameter</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td width="191" class="tg2-0lax">Correlator Scheme</td>
+                <td width="177" class="tg2-0lax">multi-&#964 (<span id='getcorrelatorP'></span> , <span
+                        id='getcorrelatorQ'></span>)
+                </td>
+            </tr>
+            <tr>
+                <td class="tg2-0lax">Pixel Binning </td>
+                <td class="tg2-0lax"><span id='getbinningX'></span> x <span id='getbinningY'></span></td>
+            </tr>
+            <tr>
+                <td class="tg2-0lax">Lower limit/ Upper limit counts </td>
+                <td class="tg2-0lax"><span id='getLL'></span> / <span id='getUL'></span></td>
+            </tr>
+            <tr>
+                <td class="tg2-0lax">Fit Model</td>
+                <td class="tg2-0lax"><span id='getfitInfo'></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <br>
+
+    <div class="col-md-6 offset-md-3 my-5">
+        <div class="card">
+            <div class="card-body">
+                <p align="justify">Display spatio-temporal correlation functions from 16 bit stack file.
+                    Download <a href="http://www.dbs.nus.edu.sg/lab/BFL/imfcs_image_j_plugin.html">ImFCS ImageJ
+                        Plugin</a>
+                    for a comprehensive software to calculate and evaluate spatiotemporal correlation functions.</p>
+                <hr>
+            </div>
+            <div align="center" class="card-body">
+                <!-- Plotly chart will be drawn inside this DIV -->
+                <div id="graphACFs"></div>
+            </div>
+            <hr><br>
+            <div align="center" class="card-body">
+                <div id="intTraceGraph"></div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <br>>
+
+
+    <div class="col-md-6 offset-md-3 my-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 align="center"> Individual Autocorrelation Function (ACF)</h4>
+                <hr>
+            </div>
+            <div align="center" class="card-body">
+                <!-- Plotly chart will be drawn inside this DIV -->
+                <div id="myDiv"></div>
+
+            </div>
+            <hr>
+
+            <h4 align="center">Pixel width coordinate: </h4>
+            <p align="center">Minimum X: <span id="getMinXIndex"></span></p>
+            <p align="center">Maximum X: <span id="getMaxXIndex"></span></p>
+            <form align="center" oninput="amount.value=rangeInputWidth.value">
+                <input type="range" id="rangeInputWidth" name="rangeInputWidth" min="" max="" value=""
+                    oninput="adjustValueXinput(this.value)">
+                <output name="amount" for="rangeInputWidth"></output>
+            </form>
+            <hr>
+
+            <h4 align="center">Pixel height coordinate: </h4>
+            <p align="center">Minimum Y: <span id="getMinYIndex"></span></p>
+            <p align="center">Maximum Y: <span id="getMaxYIndex"></span></p>
+            <form align="center" oninput="amount.value=rangeInputHeight.value">
+                <input type="range" id="rangeInputHeight" name="rangeInputHeight" min="" max="" value=""
+                    oninput="adjustValueYinput(this.value)">
+                <output name="amount" for="rangeInputHeight"></output>
+            </form>
+
+            <hr>
+            <h4 align="center">Log x-axis: </h4>
+            <div align="center">
+                <label class="switch">
+                    <input type="checkbox" id="xaxis_logswitch">
+                    <div class="slider round">
+                        <!--ADDED HTML -->
+                        <span class="on">LINEAR</span><span class="off">LOG</span>
+                        <!--END-->
+                    </div>
+                </label>
+            </div>
+
+
+        </div>
+    </div>
+
+    <br>>
+
+    <div class="col-md-6 offset-md-3 my-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 align="center" id="myHistogramText"></h4>
+                <hr>
+            </div>
+            <div align="center" class="card-body">
+                <!-- Plotly chart will be drawn inside this DIV -->
+                <div id="graph_HistD"></div>
+            </div>
+
+            <p align="center"><span id='HistDfitDetails'></span></p>
+            <p align="center"><span id='HistDmodelProb'></span></p>
+            <hr><br>
+            <div align="center" class="card-body">
+                <div id="graph_HeatMapD"></div>
+            </div>
+            <div align="center" class="card-body">
+                <input type="button" id="1" onclick="change_map(this.id)" value="D">
+                <input type="button" id="2" onclick="change_map(this.id)" value="Fitted">
+            </div>
+            <div align="center" class="card-body">
+                D lower limit: <input type="text" placeholder="enter D value" id="D_ll">
+                <br>
+                D upper limit: <input type="text" placeholder="enter D value" id="D_ul">
+                <br><br>
+                <button type="submit" onclick="updateDthreshold()" id="doDthreshold">update</button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <br>
+
+
+
+
+
+
+
+    <script>
+
+        let json = $json;
+
+        //sup
+        var two = 2;
+        var square = two.toString();
+        var HeatMap_mode = 1; //1: D1 value
+
+        //window.onload = init; // call init after done loading html
+
+        function myFunction() {
+            //TODO
+        }
+
+        function change_map(map_type) {//1= Dmap; 2 = is Fitted map
+            if (map_type == 1) {
+                Plotly.newPlot('graph_HeatMapD', dataDmap, layoutDmap);
+            }
+
+            if (map_type == 2) {
+                Plotly.newPlot('graph_HeatMapD', dataisFittedmap, layoutisFittedmap);
+            }
+        }
+
+        function updateDthreshold() {
+            var Dll = document.getElementById('D_ll');
+            var Dul = document.getElementById('D_ul');
+            console.log("Dll: " + Dll.value);
+            console.log("Dul: " + Dul.value);
+            if (HeatMap_mode == 1) {
+                //Update Maps
+                dataDmap[0].zauto = false;
+                dataDmap[0].zmin = Dll.value;
+                dataDmap[0].zmax = Dul.value;
+
+                // Update Histogram
+                layoutD.xaxis.range = [Dll.value, Dul.value];
+                dataD[0].autobinx = false;
+                dataD[0].xbins = { start: Dll.value, end: Dul.value, size: 0.02 };
+
+                ///Plotly.newPlot('graph_HeatMapD', dataDmap_1, layoutDmap_1);
+                //Plotly.newPlot('graph_HistD_1', dataD_1, layoutD_1);
+                Plotly.redraw('graph_HistD');
+                Plotly.redraw('graph_HeatMapD');
+            }
+
+        }
+
+
+
+
+
+        // loading javascript variable into html body
+        function cameraParameter() {
+            document.getElementById("getfilename").innerHTML = json['title'];
+            document.getElementById("getexposureTime").innerHTML = json['exposureTime'];
+            document.getElementById("getcorrelatorP").innerHTML = json['correlatorP'];
+            document.getElementById("getcorrelatorQ").innerHTML = json['correlatorQ'];
+            document.getElementById("getbinningX").innerHTML = json['binningX'];
+            document.getElementById("getbinningY").innerHTML = json['binningY'];
+            document.getElementById("getwidth").innerHTML = json['width'];
+            document.getElementById("getheight").innerHTML = json['height'];
+            document.getElementById("gettotalFrame").innerHTML = json['totalFrame'];
+            document.getElementById("getobjmag").innerHTML = json['objmag'];
+            document.getElementById("getpixelsize").innerHTML = json['pixelsize'];
+            document.getElementById("getNA").innerHTML = json['NA'];
+            document.getElementById("getsigma").innerHTML = json['sigma'];
+            document.getElementById("getemlambda").innerHTML = json['emlambda'];
+            document.getElementById("getfitInfo").innerHTML = getFitInfo();
+            document.getElementById("getLL").innerHTML = json['filterLL'];
+            document.getElementById("getUL").innerHTML = json['filterUL'];
+
+
+            if (json['doFit'] && json['isBayes']) {
+                document.getElementById('HistDfitDetails').innerHTML = 'Fitted: ' + numFitted + '/' + numCurve + ' | Mean: ' + (getAvg(json['Dcoeff'].filter(function (val) {
+                    return val !== 0;
+                })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s' + ' | StdDev: ' + (getSD(json['Dcoeff'].filter(function (val) {
+                    return val !== 0;
+                })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s';
+                document.getElementById('HistDmodelProb').innerHTML = 'Model Probability (1 Particle): ' + json['modelprobP1'] + ' | Model Probability (2 Particle): ' + json['modelprobP2'];
+            } else {
+                if (json['doFit']) {
+                    document.getElementById('HistDfitDetails').innerHTML = 'Fitted: ' + numFitted + '/' + numCurve + ' | Mean: ' + (getAvg(json['Dcoeff'].filter(function (val) {
+                        return val !== 0;
+                    })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s' + ' | StdDev: ' + (getSD(json['Dcoeff'].filter(function (val) {
+                        return val !== 0;
+                    })) * 10 ** 12).toFixed(2) + ' μm' + square.sup() + '/s';
+                    document.getElementById('HistDmodelProb').innerHTML = "";
+                    //document.getElementById("getCounts").innerHTML = numCurve;
+                    //document.getElementById("getDmean").innerHTML = (getAvg(json['Dcoeff']) * 10 ** 12).toFixed(2);
+                    //document.getElementById("getDsd").innerHTML = (getSD(json['Dcoeff']) * 10 ** 12).toFixed(2);
+                } else {
+                    document.getElementById('HistDfitDetails').innerHTML = "";
+                    document.getElementById('HistDmodelProb').innerHTML = "";
+                }
+            }
+
+
+
+            document.getElementById("getMinXIndex").innerHTML = 1;
+            document.getElementById("getMinYIndex").innerHTML = 1;
+            document.getElementById("getMaxXIndex").innerHTML = maxxInd;
+            document.getElementById("getMaxYIndex").innerHTML = maxyInd;
+
+        }
+
+
+
+
+
+
+        /*
+        Item and Event function listener
+        */
+
+
+        function adjustValueXinput(value) {
+            console.log('index before: ' + index);
+            inputXInd = value;
+            setIndex(inputXInd, inputYInd);
+            plot_changeACFsingle();
+            Plotly.redraw('myDiv');
+            console.log('inputX index:' + inputXInd);
+        }
+
+        function adjustValueYinput(value) {
+            console.log('index before: ' + index);
+            inputYInd = value;
+            setIndex(inputXInd, inputYInd);
+            plot_changeACFsingle();
+            Plotly.redraw('myDiv');
+            console.log('inputY index: ' + inputXInd);
+        }
+
+        function changeHeading1() {
+            console.log('index before: ' + index);
+            var elm = document.getElementById("heading1");  // One element
+            elm.innerHTML = "Index: " + index;
+            index = index + 1;
+            plot_changeACFsingle();
+            Plotly.redraw('myDiv');
+        }
+
+        document.getElementById("xaxis_logswitch").addEventListener('change', function () {
+            if (layoutACFsingle.xaxis.type == 'log') {
+                layoutACFsingle.xaxis.type = '';
+            } else {
+                layoutACFsingle.xaxis.type = 'log';
+            }
+            Plotly.redraw('myDiv');
+
+        });
+
+        /*
+                document.getElementById("changeMap").addEventListener('onclick', function () {
+                    console.alert("btn click");
+                    layoutDmap.title = 'Diffusion Coefficientdsdsd Map " + maxxInd + " x " + maxyInd + " pixels';
+        
+                    Plotly.redraw('graph_HeatMapD');
+        
+                });*/
+
+
+
+
+
+
+
+        let numCurve = json['G(tau)'].length;
+        let numPointsPerCurve = json['timeLag'].length;
+        let numFitted = 0;
+        if (json['doFit']) {
+            for (i = 0; i < numCurve; i++) {
+                if (json['isFitted'][i] == true) {
+                    numFitted++;
+                }
+            }
+        }
+
+        console.log("-------param---------");
+        console.log(json['title']);
+        console.log(json['exposureTime']);
+        console.log(json['correlatorP']);
+        console.log(json['correlatorQ']);
+        console.log(json['binningX']);
+        console.log(json['binningY']);
+        console.log(json['width']);
+        console.log(json['height']);
+        console.log(json['totalFrame']);
+        console.log(json['timeLag'].length);
+        console.log(json['G(tau)'].length);
+        console.log(json['G(tau)'][0].length);
+        console.log(json['G(tau)'][numCurve - 1].length);
+        console.log(json['maxY']);
+        console.log(json['minY']);
+        console.log(json['isBleachCorrected'])
+        console.log(json['imaxsc'])
+        console.log(json['iminsc'])
+        console.log("-------param---------");
+
+
+        /*
+        Full ACFs plot
+        */
+
+        //filling x axis
+        let xl = json['timeLag'];
+
+        //filling y axis
+        //var data = [trace1, trace2];
+        var dataACFs = [];
+        for (i = 0; i < numCurve; i++) {
+            let yl = json['G(tau)'][i];
+            let trace = {
+                x: xl,
+                y: yl,
+                mode: "lines",
+                marker: {
+                    color: 'rgb(55,83,109)'
+                }
+            };
+            dataACFs.push(trace);
+        }
+
+
+
+        var layoutACFs = {
+            title: 'ACFs' + ' at ' + json['binningX'] + ' x ' + json['binningY'] + ' binning' + ' with ' + json['correlatorP'] + ',' + json['correlatorQ'] + ' correlator scheme',
+            xaxis: {
+                title: 'τ [s]',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                zeroline: false,
+                type: 'log',
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true
+            },
+            yaxis: {
+                title: 'G(τ)',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                zeroline: true,
+                zerolinecolor: '#969696',
+                zerolinewidth: 1,
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true,
+                range: [json['minY'], json['maxY']]
+            },
+            width: 600,
+            height: 400,
+            margin: {
+                l: 100,
+                r: 50,
+                b: 40,
+                t: 40,
+                pad: 4
+            },
+            showlegend: false
+        };
+
+        Plotly.newPlot(graphACFs, dataACFs, layoutACFs);
+
+
+
+        /*
+        Intensity Traces plot
+        */
+
+        var TraceGraphTitle;
+        if (json['isBleachCorrected']) {
+            TraceGraphTitle = "Average intensity over the whole image after bleach correction.";
+        } else {
+            TraceGraphTitle = "Average intensity over the whole image without bleach correction.";
+        }
+
+
+        var averageTrace = {
+            type: "scatter",
+            mode: "lines",
+            x: json['intTime'],
+            y: json['intTrace'],
+            mode: "lines",
+            marker: {
+                color: 'rgb(55,83,109)'
+            }
+        }
+
+
+        var dataIntTrace = [averageTrace];
+        var titleYaxisTrace = "Intensity";
+        var layoutIntTrace = {
+            title: TraceGraphTitle,
+            xaxis: {
+                title: 'Time [s]',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true,
+                autorange: true,
+                type: 'linear'
+            },
+            yaxis: {
+                title: titleYaxisTrace,
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true,
+                range: [json['iminsc'], json['imaxsc']],
+                type: 'linear'
+            },
+            width: 650,
+            height: 250,
+            margin: {
+                l: 100,
+                r: 50,
+                b: 40,
+                t: 40,
+                pad: 4
+            },
+            showlegend: false
+        };
+
+        Plotly.newPlot('intTraceGraph', dataIntTrace, layoutIntTrace);
+
+
+
+
+
+        /*
+        Individual ACF with StdDev and Fit (if doFit=true)
+        */
+
+        //index for converting selected pixel dim
+
+        //display max and min to html
+        //
+        var maxxInd = Math.floor(json['width'] / json['binningX']); // maximum pixle in x direction
+        var maxyInd = Math.floor(json['height'] / json['binningY']); // maxiumum pixel in y direction
+        var inputXInd = 1;
+        var inputYInd = 1;
+        var index;
+
+        function setIndex(pw, ph) { //reading byrow=true; input index start from 1
+            var trueX = pw - 1;
+            var trueY = ph - 1;
+            index = (trueY * maxxInd) + trueX;
+        }
+
+        setIndex(inputXInd, inputYInd);
+
+
+        var dataACFsingle = [];
+        var traceACFsingle = {};
+        var layoutACFsingle = {};
+        var traceFit;
+
+        function plot_changeACFsingle() {
+            console.log('index after: ' + index);
+            traceACFsingle.y = json['G(tau)'][index];
+            traceACFsingle.error_y.array = json['sd'][index];
+            if (json['doFit']) {
+                traceFit.y = json['fitacf'][index];
+            }
+            layoutACFsingle.title = 'ACF' + ' at pixel coordinate (' + inputXInd + ',' + inputYInd + ')';
+
+        }
+
+        traceACFsingle = {
+            x: json['timeLag'],
+            y: json['G(tau)'][index], //TODO change to index
+            mode: "markers",
+            marker: {
+                color: 'rgb(55,83,109)'
+            },
+            error_y: {
+                type: 'data',
+                array: json['sd'][index], //TODO change to index
+                visible: true
+            },
+            type: 'scatter'
+        };
+
+        dataACFsingle.push(traceACFsingle);
+
+        if (json['doFit']) {
+            traceFit = {
+                x: json['timeLag'],
+                y: json['fitacf'][index], //TODO change to index
+                mode: "lines",
+                marker: {
+                    color: '#ff6666'
+                },
+                type: 'scatter'
+            };
+            dataACFsingle.push(traceFit);
+        }
+
+
+        layoutACFsingle = {
+            title: 'ACF' + ' at pixel coordinate (' + inputXInd + ',' + inputYInd + ')',
+            xaxis: {
+                title: 'τ[s]',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                type: 'log',
+                zeroline: false,
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true
+            },
+            yaxis: {
+                title: 'G(τ)',
+                autotick: true,
+                ticks: 'inside',
+                ticklen: 5,
+                tickwidth: 2,
+                tickcolor: 'darkgrey',
+                titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 18,
+                    color: 'black'
+                },
+                showgrid: true,
+                zeroline: true,
+                zerolinecolor: '#969696',
+                zerolinewidth: 1,
+                showline: true,
+                mirror: true,
+                linewidth: 3,
+                linecolor: '#636363',
+                showticklabel: true,
+                range: [json['minY'], json['maxY']]
+            },
+            width: 600,
+            height: 400,
+            margin: {
+                l: 100,
+                r: 50,
+                b: 40,
+                t: 40,
+                pad: 4
+            },
+            showlegend: false
+        };
+        Plotly.newPlot('myDiv', dataACFsingle, layoutACFsingle);
+
+
+
+        /*
+        Misc.
+        */
+
+
+
+
+
+
+        //D
+        function getAvg(array) {
+            const total = array.reduce((acc, c) => acc + c, 0);
+            return total / array.length;
+        }
+
+        function getSD(array) {
+            const n = array.length;
+            const mean = array.reduce((a, b) => a + b) / n;
+            const s = Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
+            return s;
+        }
+        /*
+                //D averg and sd
+                function returnDAvg() {
+                    array = json['Dcoeff'].filter(function (val) {
+                        return val !== 0;
+                    });
+                    const total = array.reduce((acc, c) => acc + c, 0);
+                    console.log("num fitted" + array.length);
+                    return total / array.length;
+                }
+        
+                function returnDsd() {
+                    array = json['Dcoeff'].filter(function (val) {
+                        return val !== 0;
+                    });
+                    const n = array.length;
+                    console.log("sd array length" + array);
+                    const mean = array.reduce((a, b) => a + b) / n;
+                    const s = Math.sqrt(json['Dcoeff'].map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
+                    return s;
+        
+                }*/
+
+
+
+
+        // Setting Html attribute using js script variable (attribute will get updated)
+        document.getElementById("rangeInputWidth").setAttribute('min', 1);
+        document.getElementById("rangeInputWidth").setAttribute('max', maxxInd);
+        document.getElementById("rangeInputWidth").setAttribute('value', inputXInd);
+        document.getElementById("rangeInputHeight").setAttribute('min', 1);
+        document.getElementById("rangeInputHeight").setAttribute('max', maxyInd);
+        document.getElementById("rangeInputHeight").setAttribute('value', inputYInd);
+
+        //return fitInfo
+        function getFitInfo() {
+            var fitInfo;
+            if (json['doFit']) {
+                if (json['isGLS']) {
+                    if (json['isBayes']) {
+                        fitInfo = 'Generalized Least Square + Bayes';
+                    } else {
+                        fitInfo = 'Generalized Least Square';
+                    }
+
+                } else {
+                    if (json['isBayes']) {
+                        fitInfo = 'Non-Linear Least Square + Bayes';
+                    } else {
+                        fitInfo = 'Non-Linear Least Square';
+                    }
+                }
+
+            } else {
+                fitInfo = 'Fitting not performed';
+
+            }
+            return fitInfo;
+        }
+
+        /*
+        Histogram D plot
+        */
+
+        function Dtitle() {
+
+            var text = document.getElementById("myHistogramText");
+            var toWrite;
+            if (json['doFit']) {
+                toWrite = "Diffusion Coefficient [μm" + square.sup() + "/s]";
+            } else {
+                toWrite = "<h3>Fitting was not selected.</h3>";
+            }
+            text.innerHTML = toWrite;
+
+        }
+
+        Dtitle();
+
+        var xD = [];
+        var traceD = {};
+        var dataD = [];
+        var layoutD = {};
+
+        if (json['doFit']) {
+            var trimmedDcoeff = json['Dcoeff'].filter(function (val) {
+                return val !== 0;
+            });
+            for (var i = 0; i < trimmedDcoeff.length; i++) {
+                xD[i] = trimmedDcoeff[i] * 10 ** 12; //μm2/s
+            }
+
+
+            traceD = {
+                x: xD, // μm2/s
+                type: 'histogram',
+                autobinx: true
+            };
+
+            dataD.push(traceD);
+
+            layoutD = {
+                title: "Histogram of Diffusion Coefficient [μm" + square.sup() + "/s]",
+                xaxis: {
+                    title: 'D[μm' + square.sup() + '/s]',
+                    autotick: true,
+                    ticks: 'inside',
+                    ticklen: 5,
+                    tickwidth: 2,
+                    tickcolor: 'darkgrey',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'black'
+                    },
+                    showgrid: true,
+                    zeroline: false,
+                    showline: true,
+                    mirror: true,
+                    linewidth: 3,
+                    linecolor: '#636363',
+                    showticklabel: true,
+                    range: [Math.min.apply(null, json['Dcoeff']) * 10 ** 12, Math.max.apply(null, json['Dcoeff']) * 10 ** 12]
+                },
+                yaxis: {
+                    title: 'Frequency',
+                    autotick: true,
+                    ticks: 'inside',
+                    ticklen: 5,
+                    tickwidth: 2,
+                    tickcolor: 'darkgrey',
+                    titlefont: {
+                        family: 'Arial, sans-serif',
+                        size: 18,
+                        color: 'black'
+                    },
+                    showgrid: true,
+                    zeroline: true,
+                    zerolinecolor: '#969696',
+                    zerolinewidth: 1,
+                    showline: true,
+                    mirror: true,
+                    linewidth: 3,
+                    linecolor: '#636363',
+                    showticklabel: true,
+                },
+                width: 600,
+                height: 400,
+                margin: {
+                    l: 100,
+                    r: 50,
+                    b: 40,
+                    t: 40,
+                    pad: 4
+                },
+                showlegend: false
+
+            }
+
+            Plotly.newPlot('graph_HistD', dataD, layoutD);
+        }
+
+        /*
+        Heat map
+        */
+        if (json['doFit']) {
+
+            //isFitted Map
+            var isFittedArray = [];
+            var temp2 = [];
+
+            for (var y = 0; y < maxyInd; y++) {
+                temp2.push([]);
+                temp2[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    temp2[y][x] = json['isFitted'][index] * 1;
+                }
+            }
+
+            for (var y = 0; y < maxyInd; y++) {
+                isFittedArray.push([]);
+                isFittedArray[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    isFittedArray[y][x] = temp2[maxyInd - 1 - y][x]
+                }
+            }
+
+            var dataisFittedmap = [
+                {
+                    z: isFittedArray,
+                    showscale: false,
+                    colorscale: [
+
+                        // Let first 10% (0.1) of the values have color rgb(0, 0, 0)
+
+                        [0, 'rgb(0, 0, 0)'],
+                        [0.1, 'rgb(0, 0, 0)'],
+
+                        // Let values between 10-20% of the min and max of z
+                        // have color rgb(20, 20, 20)
+
+                        [0.1, 'rgb(20, 20, 20)'],
+                        [0.2, 'rgb(20, 20, 20)'],
+
+                        // Values between 20-30% of the min and max of z
+                        //have color rgb(40, 40, 40)
+
+                        [0.2, 'rgb(40, 40, 40)'],
+                        [0.3, 'rgb(40, 40, 40)'],
+
+                        [0.3, 'rgb(60, 60, 60)'],
+                        [0.4, 'rgb(60, 60, 60)'],
+
+                        [0.4, 'rgb(80, 80, 80)'],
+                        [0.5, 'rgb(80, 80, 80)'],
+
+                        [0.5, 'rgb(100, 100, 100)'],
+                        [0.6, 'rgb(100, 100, 100)'],
+
+                        [0.6, 'rgb(120, 120, 120)'],
+                        [0.7, 'rgb(120, 120, 120)'],
+
+                        [0.7, 'rgb(140, 140, 140)'],
+                        [0.8, 'rgb(140, 140, 140)'],
+
+                        [0.8, 'rgb(160, 160, 160)'],
+                        [0.9, 'rgb(160, 160, 160)'],
+
+                        [0.9, 'rgb(180, 180, 180)'],
+                        [1.0, 'rgb(180, 180, 180)']
+                    ],
+                    type: 'heatmap',
+                    hovertemplate: 'Pixel fitted = %{z} | coordinate (%{x},%{y})'
+                }
+            ];
+
+            var layoutisFittedmap = {
+                title: "Fitted Map " + maxxInd + " x " + maxyInd + " pixels",
+                width: 500,
+                height: 500,
+                dimension: "pixel",
+                autosize: false,
+                xaxis: {
+                    visible: false
+                },
+                yaxis: {
+                    visible: false,
+                    scaleanchor: 'x'
+                }
+            }
+
+
+            //Plotly.newPlot('graph_isFittedMap', dataisFittedmap, layoutisFittedmap);
+
+
+            //D map
+            var widthToHeightRatio = maxxInd / maxyInd;
+            // transform Dcoeff into 2Darray
+            var fitResDcoeff = [];
+            var temp1 = [];
+
+            for (var y = 0; y < maxyInd; y++) {
+                temp1.push([]);
+                temp1[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    temp1[y][x] = json['Dcoeff'][index] * 10 ** 12;
+                }
+            }
+
+            for (var y = 0; y < maxyInd; y++) {
+                fitResDcoeff.push([]);
+                fitResDcoeff[y].push(new Array(maxxInd));
+                for (var x = 0; x < maxxInd; x++) {
+                    var index = (y * maxxInd) + x;
+                    fitResDcoeff[y][x] = temp1[maxyInd - 1 - y][x]
+                }
+            }
+
+
+            var dataDmap = [
+                {
+                    z: fitResDcoeff,
+                    showscale: true,
+                    fixedrange: true,
+                    colorscale: 'Hot',
+                    type: 'heatmap',
+                    hovertemplate: 'D= %{z:.3f} μm ' + square.sup() + '/s | coordinate (%{x},%{y})',
+                    colorbar: {
+                        title: 'μm ' + square.sup() + '/s',
+                        titleside: 'top',
+                        titlefont: { color: 'black' },
+                    },
+                    zauto: true
+                }
+            ];
+
+            var layoutDmap = {
+                title: "Diffusion Coefficient Map " + maxxInd + " x " + maxyInd + " pixels",
+                width: 500,
+                height: 500,
+                dimension: "pixel",
+                autosize: false,
+                xaxis: {
+                    visible: false
+                },
+                yaxis: {
+                    visible: false,
+                    scaleanchor: 'x'
+                }
+            }
+
+            // display D map first when browser load. data and layout changes a button is clicked.
+            Plotly.newPlot('graph_HeatMapD', dataDmap, layoutDmap);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        console.log('doFit: ' + json['doFit']);
+        console.log('isBayes: ' + json['isBayes']);
+        console.log('isGLS: ' + json['isGLS']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

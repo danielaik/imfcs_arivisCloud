@@ -1,0 +1,93 @@
+{
+    "spec": {
+        "inputs": {
+            "input_image": {
+                "type:file": {
+                    "format": [
+                        "ome-tiff",
+                        "tiff"
+                    ]
+                }
+            },
+            "input_width": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 40
+                },
+                "default": 21
+            },
+            "input_height": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 40
+                },
+                "default": 21
+            },
+            "input_left": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 2048
+                },
+                "default": 1
+            },
+            "input_top": {
+                "type:number": {
+                    "lower_inclusive": 1,
+                    "upper_inclusive": 2048
+                },
+                "default": 1
+            }
+        },
+        "outputs": {
+            "output_image": {
+                "type:file": {
+                    "format": [
+                        "ome-tiff",
+                        "tiff"
+                    ]
+                }
+            }
+        }
+    },
+    "ui": {
+        "inputs": {
+            "input_image": {
+                "index": 1,
+                "label": "Input Image",
+                "description": "Original imagestack (16 or 32 bit tiff)",
+                "widget:none": null
+            },
+            "input_width": {
+                "index": 2,
+                "label": "ROI Width",
+                "description": "Enter cropped width (in pixels)",
+                "widget:textbox": {}
+            },
+            "input_height": {
+                "index": 3,
+                "label": "ROI Height",
+                "description": "Enter cropped height (in pixels)",
+                "widget:textbox": {}
+            },
+            "input_left": {
+                "index": 4,
+                "label": "ROI Left",
+                "description": "Enter the X coordinate of top left corner of the cropped image relative to original image (index start from 1)",
+                "widget:textbox": {}
+            },
+            "input_top": {
+                "index": 5,
+                "label": "ROI Top",
+                "description": "Enter the Y coordinate of top left corner of the cropped image relative to original image (index start from 1)",
+                "widget:textbox": {}
+            }
+        },
+        "outputs": {
+            "output_image": {
+                "index": 1,
+                "label": "Output Image",
+                "description": "Cropped imagestack (16 or 32 bit tif)"
+            }
+        }
+    }
+}
